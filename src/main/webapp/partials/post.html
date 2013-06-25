@@ -1,0 +1,28 @@
+<h3>
+<span>{{post.title}}</span>
+<span> - </span>
+<span>{{post.message.date | date:'medium'}}</span>
+<span> by {{post.user.name}}</span>
+
+</h3>
+<p>
+	<span>{{post.message.text}}</span>
+</p>
+<div>
+<Span>Reply:</Span>
+<ul class="nav nav-tabs nav-stacked">
+    <li ng-repeat="reply in post.replys">
+	    	<span>{{reply.text}}</span>
+	    	<span> - </span>
+	    	<span>{{reply.date | date:'medium'}}</span>
+	    	<span> by {{reply.user.name}}</span>
+    </li>
+</ul>
+<a ng-href="#">back</a>
+<span>&nbsp; | &nbsp;</span>
+<a ng-href="#" ng-click="remove();">remove</a>
+</div>
+<hr>
+<pre>
+    {{post | json}}
+</pre>

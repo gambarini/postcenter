@@ -1,0 +1,38 @@
+<div>Posts Total: {{postsTotal}}</div>
+ <ul class="nav nav-tabs nav-stacked">
+    <li ng-repeat="post in posts">
+	    <a ng-href="#{{post._id}}">
+	    	<span>{{post.title}}</span>
+	    </a>
+	    <span> - </span>
+    	<span>{{post.message.date | date:'medium'}}</span>
+    	<span> by {{post.user.name}}</span>
+	    <span>&nbsp; | &nbsp;</span>
+	    <button type="button" ng-click="remove('{{post._id}}');">remove</button>
+	    <p>{{post.message.text}}</p> 
+    </li>
+ </ul>
+ <hr>
+ <form ng-submit="postSubmit()">
+ <fieldset>
+		<div>
+			<label>Title</label> 
+			<input type="text" ng-model="post.title" required /> 
+
+		</div>
+		<div>
+			<label>Message</label>
+			<textarea ng-model="post.message" rows="6" cols="150" required></textarea>
+
+		</div>
+		<div>
+			<input type="submit" />
+		</div>
+	</fieldset>
+ 
+ </form>
+ 
+ <hr>
+<pre>
+    {{posts | json}}
+</pre>
