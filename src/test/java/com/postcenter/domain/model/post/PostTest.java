@@ -138,5 +138,20 @@ public class PostTest {
 		Assert.assertNull(post);
 
 	}
+	
+	@Test
+	public void testIsValid() {
+		User user = new User("†ser", "user@user.com");
+		
+		Post validPost = Post.createPost("Valid Post", user, PostMessage.createPostMessage("Mensagem"));
+		Post invalidPost1 = Post.createPost("", user, PostMessage.createPostMessage(""));
+		Post invalidPost2 = Post.createPost("No User", null, PostMessage.createPostMessage("Where is the User?"));
+		
+		Assert.assertEquals(true, validPost.isValid());
+		Assert.assertEquals(false, invalidPost1.isValid());
+		Assert.assertEquals(false, invalidPost2.isValid());
+		
+	}
+	
 
 }

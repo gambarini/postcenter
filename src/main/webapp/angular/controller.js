@@ -31,6 +31,7 @@ postController.controller('mainCtrl', function ($scope, $http, Post) {
 	};
 	
 	$scope.refreshView = function () {
+		console.log('refresh');
 		$scope.fetchPostsCount();
 		$scope.fetchPosts();
 	};

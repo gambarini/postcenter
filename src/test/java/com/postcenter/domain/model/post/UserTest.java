@@ -49,5 +49,15 @@ public class UserTest {
 		Assert.assertEquals(user.getName(), foundUser.getName());
 		
 	}
+	
+	@Test
+	public void testIsValid() {
+		
+		User validUser = new User("nameless One", "Nameless@email.com");
+		User invalidUser = new User("", "");
+		
+		Assert.assertEquals(true, validUser.isValid());
+		Assert.assertEquals(false, invalidUser.isValid());
+	}
 
 }

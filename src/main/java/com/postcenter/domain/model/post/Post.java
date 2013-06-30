@@ -12,10 +12,10 @@ public class Post extends Entity {
 	@JsonIgnore
 	private User user;
 	private String userId;
-	
+
 	private String title;
 	private PostMessage message;
-	
+
 	@JsonIgnore
 	private List<ReplyMessage> replys = new ArrayList<ReplyMessage>();
 
@@ -25,10 +25,14 @@ public class Post extends Entity {
 
 	private Post(String title, User user, PostMessage message) {
 		this();
+
 		this.title = title;
-		this.userId = user.get_id();
-		this.user = user;
 		this.message = message;
+		
+		if (user != null) {
+			this.userId = user.get_id();
+			this.user = user;
+		}
 	}
 
 	public static Post createPost(String title, User user, PostMessage message) {
@@ -63,7 +67,10 @@ public class Post extends Entity {
 	public String getTitle() {
 		return title;
 	}
-	
-	
+
+	@Override
+	public boolean isValid() {
+		return !(this.title.isEmpty() || this.message.getText().isEmpty() || this.user == null);
+	}
 
 }

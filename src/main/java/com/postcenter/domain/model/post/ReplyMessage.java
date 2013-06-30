@@ -62,4 +62,10 @@ public class ReplyMessage extends Entity {
 		return new ReplyMessage(user, text, date);
 	}
 
+	@Override
+	public boolean isValid() {
+		
+		return false;
+	}
+
 }

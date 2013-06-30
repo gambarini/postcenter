@@ -62,7 +62,7 @@ public class PostService {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
-		if (post.getTitle().isEmpty() || post.getMessage().getText().isEmpty()) {
+		if (!post.isValid()) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		

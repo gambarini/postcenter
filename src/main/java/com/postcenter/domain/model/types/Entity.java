@@ -11,4 +11,6 @@ public abstract class Entity {
 		this._id = _id;
 	}
 	
+	public abstract boolean isValid();
+	
 }

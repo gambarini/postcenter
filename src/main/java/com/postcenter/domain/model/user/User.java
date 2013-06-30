@@ -28,6 +28,12 @@ public class User extends Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public boolean isValid() {
+
+		return !(this.name.isEmpty() || this.email.isEmpty());
+	}
 	
 	
 
