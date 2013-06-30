@@ -6,6 +6,12 @@ postCenter.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
 		templateUrl : 'partials/main.html',
 		controller : 'mainCtrl'
+	}).when('/user', {
+		templateUrl : 'partials/user.html',
+		controller : 'userCtrl'
+	}).when('/user/:userId', {
+		templateUrl : 'partials/user.html',
+		controller : 'userCtrl'
 	}).when('/:postId', {
 		templateUrl : 'partials/post.html',
 		controller : 'postCtrl'

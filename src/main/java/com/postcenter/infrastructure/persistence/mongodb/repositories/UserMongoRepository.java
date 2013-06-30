@@ -41,4 +41,14 @@ public class UserMongoRepository extends GenericMongoRepository implements IUser
 		return userCollection.findOne(this.createFilter("_id", id)).as(User.class);
 	}
 
+	@Override
+	public User findUserByName(String name) {
+		if (name == null) 
+			return null;
+		
+		return userCollection.findOne(this.createFilter("name", name)).as(User.class);
+	}
+	
+	
+
 }

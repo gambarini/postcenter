@@ -25,7 +25,7 @@ public class PostService {
 
 	@Inject
 	private IPostRepository postRepository;
-	
+
 	@Inject
 	private IUserRepository userRepository;
 
@@ -48,49 +48,6 @@ public class PostService {
 		return Response.status(Status.OK).entity(post).build();
 	}
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addPost(Post post) {
-
-		if (post == null)
-			return Response.status(Status.BAD_REQUEST).build();
-		
-		User user = userRepository.findUserById(post.getUserId());
-		
-		if (user == null){
-			return Response.status(Status.FORBIDDEN).build();
-		}
-		
-		if (!post.isValid()) {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-		
-		postRepository.store(post);
-		
-		return Response.status(Status.CREATED).entity(post).build();
-	}
-
-	@POST
-	@Path("/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response replyPost(@PathParam("id") String id, ReplyMessage reply) {
-
-		Post post = postRepository.findPostById(id);
-
-		if (post == null)
-			return Response.status(Status.NOT_FOUND).build();
-
-		if (reply == null)
-			return Response.status(Status.BAD_REQUEST).build();
-
-		post.reply(reply);
-
-		postRepository.store(post);
-
-		return Response.status(Status.CREATED).entity(reply).build();
-	}
 
 	@DELETE
 	@Path("/{id}")
@@ -102,19 +59,19 @@ public class PostService {
 			return Response.status(Status.NOT_FOUND).build();
 
 		postRepository.remove(post);
-		
+
 		return Response.status(Status.NO_CONTENT).build();
 	}
-	
+
 	@GET
 	@Path("/count")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response totalPosts(){
-		
+	public Response totalPosts() {
+
 		long totalPosts = postRepository.findPostsTotal();
 
 		return Response.status(Status.OK).entity(totalPosts).build();
-		
+
 	}
 
 }

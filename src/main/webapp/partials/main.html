@@ -15,6 +15,11 @@
  <hr>
  <form ng-submit="postSubmit()">
  <fieldset>
+ 		<div>
+			<label>User Id</label> <br/>
+			<input type="text" ng-model="post.userId" required /> 
+		</div>
+ 
 		<div>
 			<label>Title</label> <br/>
 			<input type="text" ng-model="post.title" required /> 
