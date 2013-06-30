@@ -70,7 +70,7 @@ public class Post extends Entity {
 
 	@Override
 	public boolean isValid() {
-		return !(this.title.isEmpty() || this.message.getText().isEmpty() || this.user == null);
+		return !(this.title.isEmpty() || this.message.getText().isEmpty() || this.userId == null);
 	}
 
 }

@@ -13,7 +13,7 @@ postController.controller('mainCtrl', function ($scope, $http, Post) {
 	};
 
 	$scope.remove = function(id) {
-		Post.remove({postId:id}, $scope.refreshView());
+		Post.remove({postId:id}, function() { $scope.refreshView(); });
 	};
 	
 	$scope.postSubmit = function() {
@@ -27,7 +27,7 @@ postController.controller('mainCtrl', function ($scope, $http, Post) {
 		};
 		console.log(postModel);
 		
-		Post.save([], postModel, $scope.refreshView());
+		Post.save([], postModel, function() { $scope.refreshView(); });
 	};
 	
 	$scope.refreshView = function () {

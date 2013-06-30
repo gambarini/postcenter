@@ -142,6 +142,7 @@ public class PostTest {
 	@Test
 	public void testIsValid() {
 		User user = new User("†ser", "user@user.com");
+		userRepo.store(user);
 		
 		Post validPost = Post.createPost("Valid Post", user, PostMessage.createPostMessage("Mensagem"));
 		Post invalidPost1 = Post.createPost("", user, PostMessage.createPostMessage(""));
