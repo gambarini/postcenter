@@ -28,6 +28,11 @@ public abstract class GenericMongoRepository {
 		return "{'" + fieldName + "' : '" + value.toString() + "'}";
 	}
 	
+	protected String createFilter(String fieldName1, Object value1, String fieldName2, Object value2) {
+		return "{'" + fieldName1 + "' : '" + value1.toString() + "' , '" + fieldName2 + "' : '" + value2.toString() + "'}";
+	}
+
+	
 	protected String createSort(String fieldName, boolean asc){
 		return "{" + fieldName + " : " + (asc ? "1" : "-1") + "}";
 	}

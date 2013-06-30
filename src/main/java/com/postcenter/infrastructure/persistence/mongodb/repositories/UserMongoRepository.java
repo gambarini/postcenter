@@ -2,12 +2,14 @@ package com.postcenter.infrastructure.persistence.mongodb.repositories;
 
 import org.jongo.MongoCollection;
 
-import com.postcenter.domain.model.user.IUserRepository;
-import com.postcenter.domain.model.user.User;
+import com.postcenter.domain.model.authentication.Authentication;
+import com.postcenter.domain.model.authentication.IUserRepository;
+import com.postcenter.domain.model.authentication.User;
 
 public class UserMongoRepository extends GenericMongoRepository implements IUserRepository {
 
 	protected MongoCollection userCollection;
+	protected MongoCollection authtenticationCollection;
 
 	public UserMongoRepository() {
 		super();
@@ -20,6 +22,7 @@ public class UserMongoRepository extends GenericMongoRepository implements IUser
 	@Override
 	protected void loadCollections() {
 		userCollection = jongo.getCollection(User.class.getSimpleName());
+		authtenticationCollection = jongo.getCollection(Authentication.class.getSimpleName());
 	}
 
 	@Override
@@ -48,6 +51,7 @@ public class UserMongoRepository extends GenericMongoRepository implements IUser
 		
 		return userCollection.findOne(this.createFilter("name", name)).as(User.class);
 	}
+
 	
 	
 

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.postcenter.domain.model.authentication.User;
 import com.postcenter.domain.model.types.Entity;
-import com.postcenter.domain.model.user.User;
 
 public class Post extends Entity {
 

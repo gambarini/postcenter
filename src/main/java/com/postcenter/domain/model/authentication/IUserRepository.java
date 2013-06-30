@@ -1,4 +1,4 @@
-package com.postcenter.domain.model.user;
+package com.postcenter.domain.model.authentication;
 
 
 public interface IUserRepository {

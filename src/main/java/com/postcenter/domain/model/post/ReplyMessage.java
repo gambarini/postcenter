@@ -3,8 +3,8 @@ package com.postcenter.domain.model.post;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.postcenter.domain.model.authentication.User;
 import com.postcenter.domain.model.types.Entity;
-import com.postcenter.domain.model.user.User;
 
 public class ReplyMessage extends Entity {
 

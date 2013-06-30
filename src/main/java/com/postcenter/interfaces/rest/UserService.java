@@ -12,11 +12,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.postcenter.domain.model.authentication.IUserRepository;
+import com.postcenter.domain.model.authentication.User;
 import com.postcenter.domain.model.post.IPostRepository;
 import com.postcenter.domain.model.post.Post;
 import com.postcenter.domain.model.post.ReplyMessage;
-import com.postcenter.domain.model.user.IUserRepository;
-import com.postcenter.domain.model.user.User;
 
 @Path("/user")
 public class UserService {

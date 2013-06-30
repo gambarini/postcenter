@@ -5,10 +5,10 @@ import java.util.Collection;
 
 import org.jongo.MongoCollection;
 
+import com.postcenter.domain.model.authentication.User;
 import com.postcenter.domain.model.post.IPostRepository;
 import com.postcenter.domain.model.post.Post;
 import com.postcenter.domain.model.post.ReplyMessage;
-import com.postcenter.domain.model.user.User;
 
 public class PostMongoRepository extends GenericMongoRepository implements IPostRepository {
 
