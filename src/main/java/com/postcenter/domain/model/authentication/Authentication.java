@@ -5,8 +5,10 @@ import com.postcenter.domain.model.types.Entity;
 
 
 public class Authentication extends Entity{
+	
 	private String password;
 	private String userId;
+
 	@JsonIgnore
 	private User user;
 
@@ -34,6 +36,7 @@ public class Authentication extends Entity{
 	}
 
 	public void setUser(User user) {
+		this.userId = user.get_id();
 		this.user = user;
 	}
 

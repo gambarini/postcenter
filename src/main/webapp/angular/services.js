@@ -1,16 +1,24 @@
 "use strict";
 
-var postService = angular.module('postService', [ 'ngResource' ]);
+var service = angular.module('services', [ 'ngResource' ]);
 
-postService.factory('Post', function($resource) {
+service.factory('Post', function($resource) {
 	return $resource('rest/post/:postId');
 });
 
-postService.factory('UserPost', function($resource) {
+service.factory('UserPost', function($resource) {
 	return $resource('rest/user/:userId/post/:postId');
 });
 
-postService.factory('User', function($resource) {
+service.factory('User', function($resource) {
 	return $resource('rest/user/:userId');
 });
 
+service.factory('Auth', function($resource) {
+	return $resource('rest/authentication', {}, {
+		login : {
+			method : 'POST',
+			headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+		}
+	});
+});

@@ -20,15 +20,13 @@ import com.postcenter.domain.model.post.ReplyMessage;
 
 @Path("/user")
 public class UserService {
-
-	@Inject
-	private IPostRepository postRepository;
 	
 	@Inject
 	private IUserRepository userRepository;
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response addUser(User user){
 		
 		if (!user.isValid()) return Response.status(Status.BAD_REQUEST).build();
@@ -38,54 +36,7 @@ public class UserService {
 		return Response.status(Status.CREATED).entity(user).build();
 	}
 	
-	@POST
-	@Path("{id}/post")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addPost(@PathParam("id") String userId, Post post) {
-
-		if (post == null)
-			return Response.status(Status.BAD_REQUEST).build();
-
-		User user = userRepository.findUserById(userId);
-
-		if (user == null)
-			return Response.status(Status.FORBIDDEN).build();
-
-		if (!post.isValid())
-			return Response.status(Status.BAD_REQUEST).build();
-
-		postRepository.store(post);
-
-		return Response.status(Status.CREATED).entity(post).build();
-	}
-	
-	@POST
-	@Path("{userId}/post/{postId}/reply")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response replyPost(@PathParam("userId") String userId, @PathParam("postId") String postId, ReplyMessage reply) {
-
-		User user = userRepository.findUserById(userId);
-
-		if (user == null)
-			return Response.status(Status.FORBIDDEN).build();
-
-		Post post = postRepository.findPostById(postId);
-
-		if (post == null)
-			return Response.status(Status.NOT_FOUND).build();
-
-		if (reply == null)
-			return Response.status(Status.BAD_REQUEST).build();
-
-		post.reply(reply);
-
-		postRepository.store(post);
-
-		return Response.status(Status.CREATED).entity(reply).build();
-	}
-	
+		
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser(@QueryParam("name") String name){

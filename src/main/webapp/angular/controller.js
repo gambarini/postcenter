@@ -1,4 +1,4 @@
-var postController = angular.module('postController', ['postService']);
+var postController = angular.module('postController', ['services']);
 
 postController.controller('mainCtrl', function ($scope, $http, Post, UserPost) {
 
@@ -19,7 +19,7 @@ postController.controller('mainCtrl', function ($scope, $http, Post, UserPost) {
 	$scope.postSubmit = function() {
 		
 		var postModel = {
-			userId : $scope.post.userId, //'51a55f3c0364c8b5aea1e864'
+			userId : $scope.post.userId,
 			title : $scope.post.title,
 			message : {
 				text : $scope.post.message
@@ -59,6 +59,16 @@ postController.controller('userCtrl', function ($scope, $routeParams, $location,
 		};		
 		
 		User.save([], userModel, function() { $location.path( "/" ); });
+	};
+	
+});
+
+postController.controller('loginCtrl', function ($scope, Auth) {
+	
+	$scope.loginSubmit = function() {
+		
+		$scope.authReturn = Auth.login("email="+loginForm.email.value+"&password="+loginForm.password.value);
+		
 	};
 	
 });

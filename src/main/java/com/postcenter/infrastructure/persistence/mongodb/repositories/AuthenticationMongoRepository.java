@@ -27,6 +27,8 @@ public class AuthenticationMongoRepository extends GenericMongoRepository implem
 
 	@Override
 	public void store(Authentication authentication) {
+		userCollection.save(authentication.getUser());
+		authentication.setUser(authentication.getUser()); //just update the user id in the authentication object
 		authtenticationCollection.save(authentication);		
 	}
 

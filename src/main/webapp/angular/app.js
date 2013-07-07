@@ -1,6 +1,6 @@
 "use strict";
 
-var postCenter = angular.module('postCenter', ['postController','postService']);
+var postCenter = angular.module('postCenter', ['postController','services']);
 
 postCenter.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
@@ -9,6 +9,9 @@ postCenter.config([ '$routeProvider', function($routeProvider) {
 	}).when('/user', {
 		templateUrl : 'partials/user.html',
 		controller : 'userCtrl'
+	}).when('/authentication', {
+		templateUrl : 'partials/login.html',
+		controller : 'loginCtrl'
 	}).when('/user/:userId', {
 		templateUrl : 'partials/user.html',
 		controller : 'userCtrl'
