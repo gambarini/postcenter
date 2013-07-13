@@ -9,7 +9,6 @@ public class User extends Entity {
 	private String name;
 	private String email;
 	private Date createDate;
-	private Authentication authtentication;
 
 	private User() {
 		this.createDate = new Date();
@@ -41,10 +40,6 @@ public class User extends Entity {
 	
 	public Date getCreateDate() {
 		return createDate;
-	}
-
-	public Authentication getAuthtentication() {
-		return authtentication;
 	}
 
 	

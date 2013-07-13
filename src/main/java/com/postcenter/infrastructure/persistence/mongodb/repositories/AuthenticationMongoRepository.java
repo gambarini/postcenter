@@ -35,13 +35,14 @@ public class AuthenticationMongoRepository extends GenericMongoRepository implem
 	@Override
 	public Authentication findAuthtentication(String password, String email){
 		
-		Authentication authentication =  this.authtenticationCollection.findOne(createFilter("password", password)).as(Authentication.class);
+		User user = userCollection.findOne(createFilter("email", email)).as(User.class);
 		
-		User user = null;
-		if (authentication != null) 
-			user = userCollection.findOne(createFilter("_id", authentication.getUserId(), "email", email)).as(User.class);
+		Authentication authentication = null;
+		if (user != null) 
+			authentication =  this.authtenticationCollection.findOne(createFilter("userId", user.get_id() , "password", password)).as(Authentication.class);
+			
 		
-		if (user == null) return null;
+		if (authentication == null) return null;
 		else authentication.setUser(user);
 		
 		return authentication;

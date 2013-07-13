@@ -49,16 +49,19 @@ postController.controller('postCtrl', function ($scope, $routeParams, Post) {
 	
 });
 
-postController.controller('userCtrl', function ($scope, $routeParams, $location, User) {
+postController.controller('userCtrl', function ($scope, $routeParams, $location, Auth) {
 	
 	$scope.userSubmit = function() {
 		
-		var userModel = {
-			name : $scope.user.name,
-			email : $scope.user.email,
+		var authModel = {
+			user : {
+				name : $scope.user.name,
+				email : $scope.user.email
+			},
+			password : $scope.password
 		};		
-		
-		User.save([], userModel, function() { $location.path( "/" ); });
+		A
+		$scope.user = Auth.save([], authModel, function() { $location.path( "/" ); });
 	};
 	
 });

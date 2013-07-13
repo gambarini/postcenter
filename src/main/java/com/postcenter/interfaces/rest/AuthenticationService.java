@@ -21,7 +21,7 @@ public class AuthenticationService {
 	private IAuthenticationRepository authenticationRepository;
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response authentication(@FormParam("email") @DefaultValue("") String email, @FormParam("password") @DefaultValue("") String password) {
 
 		Authentication auth = authenticationRepository.findAuthtentication(password, email);
@@ -29,7 +29,9 @@ public class AuthenticationService {
 		if (auth == null)
 			return Response.status(Status.FORBIDDEN).build();
 
-		return Response.status(Status.OK).entity(auth.getUser()).build();
+		String token = auth.authenticate();
+
+		return Response.status(Status.OK).entity(token).build();
 	}
 
 	@POST
@@ -39,7 +41,7 @@ public class AuthenticationService {
 
 		if (auth == null || !auth.isValid())
 			return Response.status(Status.BAD_REQUEST).build();
-		
+
 		authenticationRepository.store(auth);
 
 		return Response.status(Status.CREATED).entity(auth.getUser()).build();
