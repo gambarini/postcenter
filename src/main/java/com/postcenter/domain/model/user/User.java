@@ -1,4 +1,4 @@
-package com.postcenter.domain.model.authentication;
+package com.postcenter.domain.model.user;
 
 import java.util.Date;
 

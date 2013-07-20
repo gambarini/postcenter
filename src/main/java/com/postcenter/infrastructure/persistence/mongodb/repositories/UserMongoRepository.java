@@ -3,10 +3,11 @@ package com.postcenter.infrastructure.persistence.mongodb.repositories;
 import org.jongo.MongoCollection;
 
 import com.postcenter.domain.model.authentication.Authentication;
-import com.postcenter.domain.model.authentication.IUserRepository;
-import com.postcenter.domain.model.authentication.User;
+import com.postcenter.domain.model.user.IUserRepository;
+import com.postcenter.domain.model.user.User;
 
 public class UserMongoRepository extends GenericMongoRepository implements IUserRepository {
+
 
 	protected MongoCollection userCollection;
 	protected MongoCollection authtenticationCollection;
@@ -30,6 +31,10 @@ public class UserMongoRepository extends GenericMongoRepository implements IUser
 		userCollection.save(user);
 	}
 	
+	@Override
+	public void remove(User user) {
+		userCollection.remove(user.get_id());
+	}
 
 	@Override
 	public void removeAll() {

@@ -1,7 +1,6 @@
 package com.postcenter.interfaces.rest;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -34,17 +33,5 @@ public class AuthenticationService {
 		return Response.status(Status.OK).entity(token).build();
 	}
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addAuthentication(Authentication auth) {
-
-		if (auth == null || !auth.isValid())
-			return Response.status(Status.BAD_REQUEST).build();
-
-		authenticationRepository.store(auth);
-
-		return Response.status(Status.CREATED).entity(auth.getUser()).build();
-	}
 
 }

@@ -1,12 +1,10 @@
-package com.postcenter.domain.model.post;
+package com.postcenter.domain.model.user;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.postcenter.domain.model.authentication.IUserRepository;
-import com.postcenter.domain.model.authentication.User;
 import com.postcenter.infrastructure.persistence.mongodb.repositories.UserMongoRepository;
 
 public class UserTest {

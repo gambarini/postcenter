@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.postcenter.domain.model.authentication.IUserRepository;
-import com.postcenter.domain.model.authentication.User;
+import com.postcenter.domain.model.user.IUserRepository;
+import com.postcenter.domain.model.user.User;
 import com.postcenter.infrastructure.persistence.mongodb.repositories.PostMongoRepository;
 import com.postcenter.infrastructure.persistence.mongodb.repositories.UserMongoRepository;
 

@@ -4,7 +4,7 @@ import org.jongo.MongoCollection;
 
 import com.postcenter.domain.model.authentication.Authentication;
 import com.postcenter.domain.model.authentication.IAuthenticationRepository;
-import com.postcenter.domain.model.authentication.User;
+import com.postcenter.domain.model.user.User;
 
 public class AuthenticationMongoRepository extends GenericMongoRepository implements IAuthenticationRepository{
 
@@ -27,8 +27,6 @@ public class AuthenticationMongoRepository extends GenericMongoRepository implem
 
 	@Override
 	public void store(Authentication authentication) {
-		userCollection.save(authentication.getUser());
-		authentication.setUser(authentication.getUser()); //just update the user id in the authentication object
 		authtenticationCollection.save(authentication);		
 	}
 
@@ -43,7 +41,7 @@ public class AuthenticationMongoRepository extends GenericMongoRepository implem
 			
 		
 		if (authentication == null) return null;
-		else authentication.setUser(user);
+		else authentication.setUser(user.get_id());
 		
 		return authentication;
 	}

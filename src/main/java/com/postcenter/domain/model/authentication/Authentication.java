@@ -3,7 +3,6 @@ package com.postcenter.domain.model.authentication;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.postcenter.domain.model.types.Entity;
 
 public class Authentication extends Entity {
@@ -13,24 +12,20 @@ public class Authentication extends Entity {
 	protected Date lastAuthentication;
 	private String userId;
 
-	@JsonIgnore
-	private User user;
-
 	protected Authentication() {
 
 	}
 
-	protected Authentication(User user, String password) {
+	protected Authentication(String userId, String password) {
 		this();
 		this.password = password;
-		this.user = user;
-		this.userId = user.get_id();
+		this.userId = userId;
 	}
 
-	public static Authentication createAuthentication(User user, String password) {
-		return new Authentication(user, password);
+	public static Authentication createAuthentication(String userId, String password) {
+		return new Authentication(userId, password);
 	}
-
+	
 	public String generateToken() {
 		// TODO crypto token generator service
 		this.token = String.valueOf((new Date()).getTime());
@@ -83,19 +78,14 @@ public class Authentication extends Entity {
 		return userId;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.userId = user.get_id();
-		this.user = user;
+	public void setUser(String userId) {
+		this.userId = userId;
 	}
 
 	@Override
 	public boolean isValid() {
 
-		return !(this.password.isEmpty() || this.user.isValid());
+		return !(this.password.isEmpty() || this.userId.isEmpty());
 	}
 
 }

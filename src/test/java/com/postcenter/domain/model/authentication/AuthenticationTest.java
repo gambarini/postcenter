@@ -1,4 +1,4 @@
-package com.postcenter.domain.model.post;
+package com.postcenter.domain.model.authentication;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import com.postcenter.domain.model.authentication.Authentication;
 import com.postcenter.domain.model.authentication.IAuthenticationRepository;
-import com.postcenter.domain.model.authentication.IUserRepository;
-import com.postcenter.domain.model.authentication.User;
+import com.postcenter.domain.model.user.IUserRepository;
+import com.postcenter.domain.model.user.User;
 import com.postcenter.infrastructure.persistence.mongodb.repositories.AuthenticationMongoRepository;
 import com.postcenter.infrastructure.persistence.mongodb.repositories.UserMongoRepository;
 
@@ -41,14 +41,14 @@ public class AuthenticationTest {
 		User user = new User("Nameless One", "nameless@mail.com");
 		userRepo.store(user);
 
-		Authentication authentication = Authentication.createAuthentication(user, "password");
+		Authentication authentication = Authentication.createAuthentication(user.get_id(), "password");
 		authRepo.store(authentication);
 
 		Authentication authFound = authRepo.findAuthtentication("password", "nameless@mail.com");
 		Authentication authNotFound1 = authRepo.findAuthtentication("pass", "nameless@mail.com");
 		Authentication authNotFound2 = authRepo.findAuthtentication("password", "name@mail.com");
 
-		Assert.assertEquals(user.getName(), authFound.getUser().getName());
+		Assert.assertEquals(user.get_id(), authFound.getUserId());
 		Assert.assertNull(authNotFound1);
 		Assert.assertNull(authNotFound2);
 
@@ -62,7 +62,7 @@ public class AuthenticationTest {
 			private int expireMinutes = 0;
 
 			public AuthenticationMock(User user, String password, int expireMinutes) {
-				super(user, password);
+				super(user.get_id(), password);
 				this.expireMinutes = expireMinutes;
 			}
 
@@ -98,7 +98,7 @@ public class AuthenticationTest {
 		User user = new User("Nameless One", "nameless@mail.com");
 		userRepo.store(user);
 
-		Authentication authentication = Authentication.createAuthentication(user, "password");
+		Authentication authentication = Authentication.createAuthentication(user.get_id(), "password");
 
 		String token = authentication.authenticate();
 

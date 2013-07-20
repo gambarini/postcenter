@@ -18,7 +18,10 @@ service.factory('Auth', function($resource) {
 	return $resource('rest/authentication', {}, {
 		login : {
 			method : 'POST',
-			headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded',
+				'Accept' : 'text/plain'
+			}
 		}
 	});
 });
