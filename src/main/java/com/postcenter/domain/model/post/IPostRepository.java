@@ -11,7 +11,6 @@ public interface IPostRepository {
 	 void remove(Post post);
 	 void removeAll();
 	 Post findPostById(String id);
-	 void fetchUser(Post post);
 	 public Collection<Post> findTopPosts(int topQuantity);
 	 long findPostsTotal();
 

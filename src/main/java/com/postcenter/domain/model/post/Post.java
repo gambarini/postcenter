@@ -5,12 +5,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.postcenter.domain.model.types.Entity;
-import com.postcenter.domain.model.user.User;
 
 public class Post extends Entity {
 
-	@JsonIgnore
-	private User user;
 	private String userId;
 
 	private String title;
@@ -23,20 +20,20 @@ public class Post extends Entity {
 
 	}
 
-	private Post(String title, User user, PostMessage message) {
+	private Post(String title, String userId, PostMessage message) {
 		this();
 
 		this.title = title;
 		this.message = message;
-		
-		if (user != null) {
-			this.userId = user.get_id();
-			this.user = user;
-		}
+		this.userId = userId;
 	}
 
-	public static Post createPost(String title, User user, PostMessage message) {
-		return new Post(title, user, message);
+	public static Post createPost(String title, String userId, PostMessage message) {
+		return new Post(title, userId, message);
+	}
+
+	public static PostMessage createPostMessage(String text) {
+		return new PostMessage(text);
 	}
 
 	public void reply(ReplyMessage message) {
@@ -52,12 +49,8 @@ public class Post extends Entity {
 		return userId;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(String userId) {
+		this.userId = userId;
 	}
 
 	public PostMessage getMessage() {
@@ -72,5 +65,6 @@ public class Post extends Entity {
 	public boolean isValid() {
 		return !(this.title.isEmpty() || this.message.getText().isEmpty() || this.userId == null);
 	}
+
 
 }

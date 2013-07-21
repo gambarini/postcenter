@@ -1,33 +1,34 @@
-<web-app>
-   <!-- Auto scan REST service -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+	<!-- Auto scan REST service -->
 	<context-param>
 		<param-name>resteasy.scan</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<context-param>
-       <param-name>resteasy.servlet.mapping.prefix</param-name>
-       <param-value>/rest</param-value>
-    </context-param>
-   
-   <listener>
-      <listener-class>
-         org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
-      </listener-class>
-   </listener>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/rest</param-value>
+	</context-param>
 
-  <!-- ** INSERT YOUR LISTENERS HERE!!!! -->
+	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+	</listener>
 
-   <servlet>
-      <servlet-name>Resteasy</servlet-name>
-      <servlet-class>
-         org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
-      </servlet-class>
-   </servlet>
+	<!-- ** INSERT YOUR LISTENERS HERE!!!! -->
 
-   <servlet-mapping>
-      <servlet-name>Resteasy</servlet-name>
-      <url-pattern>/rest/*</url-pattern>
-   </servlet-mapping>
+	<servlet>
+		<servlet-name>Resteasy</servlet-name>
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Resteasy</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
 
 </web-app>

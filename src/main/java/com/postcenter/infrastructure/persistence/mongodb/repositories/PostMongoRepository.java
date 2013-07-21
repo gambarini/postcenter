@@ -8,12 +8,10 @@ import org.jongo.MongoCollection;
 import com.postcenter.domain.model.post.IPostRepository;
 import com.postcenter.domain.model.post.Post;
 import com.postcenter.domain.model.post.ReplyMessage;
-import com.postcenter.domain.model.user.User;
 
 public class PostMongoRepository extends GenericMongoRepository implements IPostRepository {
 
 	private MongoCollection postCollection;
-	private MongoCollection userCollection;
 	private MongoCollection replyCollection;
 
 	public PostMongoRepository() {
@@ -27,7 +25,6 @@ public class PostMongoRepository extends GenericMongoRepository implements IPost
 	@Override
 	protected void loadCollections() {
 		postCollection = jongo.getCollection(Post.class.getSimpleName());
-		userCollection = jongo.getCollection(User.class.getSimpleName());
 		replyCollection = jongo.getCollection(ReplyMessage.class.getSimpleName());
 	}
 
@@ -66,7 +63,6 @@ public class PostMongoRepository extends GenericMongoRepository implements IPost
 
 		Post post = postCollection.findOne(createFilter("_id", id)).as(Post.class);
 		if (post != null) {
-			fetchUser(post);
 			fetchReplyMessage(post);
 		}
 
@@ -79,29 +75,16 @@ public class PostMongoRepository extends GenericMongoRepository implements IPost
 		Collection<Post> postsList = new ArrayList<Post>();
 		for (Post post : posts) {
 			postsList.add(post);
-			post.setUser(findUser(post.getUserId()));
 		}
 
 		return postsList;
 	}
 
-	@Override
-	public void fetchUser(Post post) {
-		post.setUser(findUser(post.getUserId()));
-	}
-
-	protected User findUser(String userId) {
-		if (userId == null)
-			return null;
-
-		return userCollection.findOne(createFilter("_id", userId)).as(User.class);
-	}
-
+	
 	public void fetchReplyMessage(Post post) {
 		Iterable<ReplyMessage> replys = replyCollection.find(this.createFilter("postId", post.get_id())).sort(this.createSort("_id", true)).as(ReplyMessage.class);
 
-		for (ReplyMessage reply : replys) {
-			reply.setUser(findUser(reply.getUserId()));
+		for (ReplyMessage reply : replys) {			
 			post.reply(reply);
 		}
 	}

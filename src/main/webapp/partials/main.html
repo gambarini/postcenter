@@ -1,23 +1,22 @@
 <div>Posts Total: {{postsTotal}}</div>
  <ul class="nav nav-tabs nav-stacked">
     <li ng-repeat="post in posts">
-	    <a ng-href="#{{post._id}}">
+	    <a ng-href="#{{post.id}}">
 	    	<span>{{post.title}}</span>
 	    </a>
 	    <span> - </span>
-    	<span>{{post.message.date | date:'medium'}}</span>
-    	<span> by {{post.user.name}}</span>
+    	<span>{{post.createDate | date:'medium'}}</span>
+    	<span> by {{post.userName}}</span>
 	    <span>&nbsp; | &nbsp;</span>
-	    <button type="button" ng-click="remove('{{post._id}}');">remove</button>
-	    <p>{{post.message.text}}</p> 
+	    <button type="button" ng-click="remove('{{post.id}}');">remove</button>
+	    <p>{{post.message}}</p> 
     </li>
  </ul>
  <hr>
- <form ng-submit="postSubmit()">
+ <form ng-submit="postSubmit()" ng-hide="logedUser === undefined">
  <fieldset>
  		<div>
-			<label>User Id</label> <br/>
-			<input type="text" ng-model="post.userId" required /> 
+			<label>You are logged as: {{logedUser.name}}</label> <br/><br/>
 		</div>
  
 		<div>

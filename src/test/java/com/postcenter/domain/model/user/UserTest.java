@@ -61,6 +61,19 @@ public class UserTest {
 	}
 	
 	@Test
+	public void testFindUserByEmail(){
+		User user = new User("nameless One", "Nameless@email.com");
+		
+		userRepo.store(user);
+		
+		User foundUser = userRepo.findUserByEmail(user.getEmail());
+		
+		Assert.assertEquals(user.get_id(), foundUser.get_id());
+		Assert.assertEquals(user.getName(), foundUser.getName());
+
+	}
+	
+	@Test
 	public void testIsValid() {
 		
 		User validUser = new User("nameless One", "Nameless@email.com");

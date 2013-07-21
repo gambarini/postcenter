@@ -42,12 +42,12 @@ public class PostTest {
 		userRepo.store(user1);
 		userRepo.store(user2);
 
-		PostMessage message = PostMessage.createPostMessage("Pergunta!");
+		PostMessage message = Post.createPostMessage("Pergunta!");
 		ReplyMessage messageReply1 = ReplyMessage.createReplyMessage(user2, "Resposta!", new Date());
 		ReplyMessage messageReply2 = ReplyMessage.createReplyMessage(user1, "Duvida!", new Date());
 		ReplyMessage messageReply3 = ReplyMessage.createReplyMessage(user2, "Explicacao", new Date());
 
-		Post newPost = Post.createPost("Tenho uma pergunta", user1, message);
+		Post newPost = Post.createPost("Tenho uma pergunta", user1.get_id(), message);
 		postRepo.store(newPost);
 		
 		newPost.reply(messageReply1);
@@ -59,7 +59,7 @@ public class PostTest {
 
 		Assert.assertNotNull(foundPost);
 		Assert.assertNotNull(foundPost.get_id());
-		Assert.assertEquals(user1.getName(), foundPost.getUser().getName());
+		Assert.assertEquals(user1.get_id(), foundPost.getUserId());
 		Assert.assertEquals(3, foundPost.getReplys().size());
 
 	}
@@ -69,8 +69,8 @@ public class PostTest {
 		User user1 = new User("Alfred", "alfred@email.com;");
 		userRepo.store(user1);
 		
-		PostMessage message = PostMessage.createPostMessage("Pergunta!");
-		Post newPost = Post.createPost("Tenho uma pergunta", user1, message);
+		PostMessage message = Post.createPostMessage("Pergunta!");
+		Post newPost = Post.createPost("Tenho uma pergunta", user1.get_id(), message);
 		postRepo.store(newPost);
 		
 		Post foundPost = postRepo.findPostById(newPost.get_id());
@@ -86,31 +86,31 @@ public class PostTest {
 
 	@Test
 	public void testFindTopPosts() {
-		User user1 = new User("Alfred", "alfred@email.com;");
-		userRepo.store(user1);
+		User user = new User("Alfred", "alfred@email.com;");
+		userRepo.store(user);
 		
-		PostMessage message1 = PostMessage.createPostMessage("Pergunta!");
-		Post newPost1 = Post.createPost("Tenho uma pergunta", user1, message1);
+		PostMessage message1 = Post.createPostMessage("Pergunta!");
+		Post newPost1 = Post.createPost("Tenho uma pergunta", user.get_id(), message1);
 		postRepo.store(newPost1);
 		
-		PostMessage message2 = PostMessage.createPostMessage("Pergunta!");
-		Post newPost2 = Post.createPost("Tenho uma pergunta", user1, message2);
+		PostMessage message2 = Post.createPostMessage("Pergunta!");
+		Post newPost2 = Post.createPost("Tenho uma pergunta", user.get_id(), message2);
 		postRepo.store(newPost2);
 		
-		PostMessage message3 = PostMessage.createPostMessage("Pergunta!");
-		Post newPost3 = Post.createPost("Tenho uma pergunta", user1, message3);
+		PostMessage message3 = Post.createPostMessage("Pergunta!");
+		Post newPost3 = Post.createPost("Tenho uma pergunta", user.get_id(), message3);
 		postRepo.store(newPost3);
 		
-		PostMessage message4 = PostMessage.createPostMessage("Pergunta!");
-		Post newPost4 = Post.createPost("Tenho uma pergunta", user1, message4);
+		PostMessage message4 = Post.createPostMessage("Pergunta!");
+		Post newPost4 = Post.createPost("Tenho uma pergunta", user.get_id(), message4);
 		postRepo.store(newPost4);
 		
-		PostMessage message5 = PostMessage.createPostMessage("Pergunta!");
-		Post newPost5 = Post.createPost("Tenho uma pergunta", user1, message5);
+		PostMessage message5 = Post.createPostMessage("Pergunta!");
+		Post newPost5 = Post.createPost("Tenho uma pergunta", user.get_id(), message5);
 		postRepo.store(newPost5);
 		
-		PostMessage message6 = PostMessage.createPostMessage("Pergunta!");
-		Post newPost6 = Post.createPost("Tenho uma pergunta", user1, message6);
+		PostMessage message6 = Post.createPostMessage("Pergunta!");
+		Post newPost6 = Post.createPost("Tenho uma pergunta", user.get_id(), message6);
 		postRepo.store(newPost6);
 		
 		Collection<Post> topPosts = postRepo.findTopPosts(5);
@@ -127,7 +127,7 @@ public class PostTest {
 		
 		Assert.assertEquals(5, topPosts.size());
 		Assert.assertTrue(isNewer);
-		Assert.assertNotNull(firstPost.getUser());
+		Assert.assertNotNull(firstPost.getUserId());
 	}
 
 	@Test
@@ -144,9 +144,9 @@ public class PostTest {
 		User user = new User("†ser", "user@user.com");
 		userRepo.store(user);
 		
-		Post validPost = Post.createPost("Valid Post", user, PostMessage.createPostMessage("Mensagem"));
-		Post invalidPost1 = Post.createPost("", user, PostMessage.createPostMessage(""));
-		Post invalidPost2 = Post.createPost("No User", null, PostMessage.createPostMessage("Where is the User?"));
+		Post validPost = Post.createPost("Valid Post", user.get_id(), Post.createPostMessage("Mensagem"));
+		Post invalidPost1 = Post.createPost("", user.get_id(), Post.createPostMessage(""));
+		Post invalidPost2 = Post.createPost("No User", null, Post.createPostMessage("Where is the User?"));
 		
 		Assert.assertEquals(true, validPost.isValid());
 		Assert.assertEquals(false, invalidPost1.isValid());

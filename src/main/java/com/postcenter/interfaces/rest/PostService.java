@@ -1,5 +1,7 @@
 package com.postcenter.interfaces.rest;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -16,9 +18,12 @@ import javax.ws.rs.core.Response.Status;
 
 import com.postcenter.domain.model.post.IPostRepository;
 import com.postcenter.domain.model.post.Post;
+import com.postcenter.domain.model.post.PostMessage;
 import com.postcenter.domain.model.post.ReplyMessage;
 import com.postcenter.domain.model.user.IUserRepository;
 import com.postcenter.domain.model.user.User;
+import com.postcenter.interfaces.rest.dto.PostDTO;
+import com.postcenter.interfaces.rest.facade.PostFacade;
 
 @Path("/")
 public class PostService {
@@ -34,7 +39,10 @@ public class PostService {
 	@Path("/post")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTopPosts(@DefaultValue("5") @QueryParam("top") int topQuantity) {
-		return Response.status(Status.OK).entity(postRepository.findTopPosts(topQuantity)).build();
+		
+		List<PostDTO> postsDTO = PostFacade.toPostDTO(postRepository.findTopPosts(topQuantity), userRepository);
+		
+		return Response.status(Status.OK).entity(postsDTO).build();
 	}
 
 	@GET
@@ -80,15 +88,18 @@ public class PostService {
 	@Path("/user/{id}/post")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addPost(@PathParam("id") String userId, Post post) {
+	public Response addPost(@PathParam("id") String userId, PostDTO postDTO) {
 
-		if (post == null)
+		if (postDTO == null)
 			return Response.status(Status.BAD_REQUEST).build();
 
 		User user = userRepository.findUserById(userId);
 
 		if (user == null)
 			return Response.status(Status.FORBIDDEN).build();
+
+		PostMessage postMessage = Post.createPostMessage(postDTO.getMessage());
+		Post post = Post.createPost(postDTO.getTitle(), userId, postMessage);
 
 		if (!post.isValid())
 			return Response.status(Status.BAD_REQUEST).build();

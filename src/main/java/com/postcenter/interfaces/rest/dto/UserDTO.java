@@ -1,10 +1,21 @@
-package com.postcenter.interfaces.rest.modelview;
+package com.postcenter.interfaces.rest.dto;
+
+import com.postcenter.domain.model.user.User;
 
 public class UserDTO {
+	
+	private String id;
 	private String name;
 	private String email;
 	private String password;
 	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -22,6 +33,10 @@ public class UserDTO {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public User fromDTO() {
+		User user = new User(getName(), getEmail());
+		return user;
 	}
 	
 	

@@ -1,7 +1,13 @@
 var postController = angular.module('postController',
 		[ 'services', 'ngCookies' ]);
 
-postController.controller('mainCtrl', function($scope, $http, Post, UserPost) {
+postController.controller('mainCtrl', function($scope, $http, $cookieStore,
+		Post, UserPost, User) {
+
+	$scope.post = {
+		title : "",
+		message : ""
+	};
 
 	$scope.fetchPosts = function() {
 		$scope.posts = Post.query({
@@ -15,6 +21,18 @@ postController.controller('mainCtrl', function($scope, $http, Post, UserPost) {
 		});
 	};
 
+	$scope.fetchUser = function() {
+
+		var cookieEmail = $cookieStore.get('email');
+
+		if (cookieEmail !== undefined) {
+
+			$scope.logedUser = User.get({
+				email : cookieEmail
+			});
+		}
+	};
+
 	$scope.remove = function(id) {
 		Post.remove({
 			postId : id
@@ -25,25 +43,17 @@ postController.controller('mainCtrl', function($scope, $http, Post, UserPost) {
 
 	$scope.postSubmit = function() {
 
-		var postModel = {
-			userId : $scope.post.userId,
-			title : $scope.post.title,
-			message : {
-				text : $scope.post.message
-			}
-		};
-
 		UserPost.save({
-			userId : $scope.post.userId
-		}, postModel, function() {
+			userId : $scope.logedUser._id
+		}, $scope.post, function() {
 			$scope.refreshView();
 		});
 	};
 
 	$scope.refreshView = function() {
-		console.log('refresh');
 		$scope.fetchPostsCount();
 		$scope.fetchPosts();
+		$scope.fetchUser();
 	};
 
 	$scope.refreshView();
@@ -77,16 +87,15 @@ postController.controller('userCtrl', function($scope, $routeParams, $location,
 
 });
 
-postController.controller('loginCtrl', function($scope, $location, $cookieStore, Auth) {
+postController.controller('loginCtrl', function($scope, $location,
+		$cookieStore, Auth) {
 
 	$scope.loginSubmit = function() {
 
 		Auth.login("email=" + loginForm.email.value + "&password="
 				+ loginForm.password.value, function(data) {
-
 			$cookieStore.put('email', loginForm.email.value);
 			$cookieStore.put('token', data);
-			
 			$location.path('/');
 
 		});

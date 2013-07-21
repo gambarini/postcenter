@@ -9,6 +9,7 @@ import com.postcenter.domain.model.user.User;
 public class UserMongoRepository extends GenericMongoRepository implements IUserRepository {
 
 
+
 	protected MongoCollection userCollection;
 	protected MongoCollection authtenticationCollection;
 
@@ -57,7 +58,12 @@ public class UserMongoRepository extends GenericMongoRepository implements IUser
 		return userCollection.findOne(this.createFilter("name", name)).as(User.class);
 	}
 
-	
-	
+	@Override
+	public User findUserByEmail(String email) {
+		if (email == null) 
+			return null;
+		
+		return userCollection.findOne(this.createFilter("email", email)).as(User.class);
+	}
 
 }

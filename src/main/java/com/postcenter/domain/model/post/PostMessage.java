@@ -11,13 +11,9 @@ public class PostMessage {
 		this.date = new Date();
 	}
 
-	private PostMessage(String text) {
+	public PostMessage(String text) {
 		this();
 		this.text = text;
-	}
-
-	public static PostMessage createPostMessage(String text) {
-		return new PostMessage(text);
 	}
 
 	public String getText() {

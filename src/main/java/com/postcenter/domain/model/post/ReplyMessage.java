@@ -2,40 +2,29 @@ package com.postcenter.domain.model.post;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.postcenter.domain.model.types.Entity;
 import com.postcenter.domain.model.user.User;
 
 public class ReplyMessage extends Entity {
-
-	@JsonIgnore
-	private User user;
+	
 	private String userId;
-
 	private String text;
 	private Date date;
-
 	private String postId;
 
 	private ReplyMessage() {
 
 	}
 
-	private ReplyMessage(User user, String text, Date date) {
+	private ReplyMessage(String text, Date date, String userId) {
 
-		this.userId = user.get_id();
-		this.user = user;
+		this.userId = userId;
 		this.text = text;
 		this.date = date;
 	}
-
-	public User getUser() {
-		return user;
-	}
 	
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(String userId) {
+		this.userId = userId;
 	}
 
 	public String getUserId() {
@@ -59,7 +48,7 @@ public class ReplyMessage extends Entity {
 	}
 
 	public static ReplyMessage createReplyMessage(User user, String text, Date date) {
-		return new ReplyMessage(user, text, date);
+		return new ReplyMessage(text, date, user.get_id());
 	}
 
 	@Override
