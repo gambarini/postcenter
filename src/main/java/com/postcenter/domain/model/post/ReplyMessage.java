@@ -3,7 +3,6 @@ package com.postcenter.domain.model.post;
 import java.util.Date;
 
 import com.postcenter.domain.model.types.Entity;
-import com.postcenter.domain.model.user.User;
 
 public class ReplyMessage extends Entity {
 	
@@ -13,14 +12,13 @@ public class ReplyMessage extends Entity {
 	private String postId;
 
 	private ReplyMessage() {
-
+		this.date = new Date();
 	}
 
-	private ReplyMessage(String text, Date date, String userId) {
-
+	public ReplyMessage(String text, String userId) {
+		this();
 		this.userId = userId;
 		this.text = text;
-		this.date = date;
 	}
 	
 	public void setUser(String userId) {
@@ -45,10 +43,6 @@ public class ReplyMessage extends Entity {
 
 	public void setPostId(String postId) {
 		this.postId = postId;
-	}
-
-	public static ReplyMessage createReplyMessage(User user, String text, Date date) {
-		return new ReplyMessage(text, date, user.get_id());
 	}
 
 	@Override

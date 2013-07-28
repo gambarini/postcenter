@@ -43,9 +43,9 @@ public class PostTest {
 		userRepo.store(user2);
 
 		PostMessage message = Post.createPostMessage("Pergunta!");
-		ReplyMessage messageReply1 = ReplyMessage.createReplyMessage(user2, "Resposta!", new Date());
-		ReplyMessage messageReply2 = ReplyMessage.createReplyMessage(user1, "Duvida!", new Date());
-		ReplyMessage messageReply3 = ReplyMessage.createReplyMessage(user2, "Explicacao", new Date());
+		ReplyMessage messageReply1 = Post.createReplyMessage(user2, "Resposta!");
+		ReplyMessage messageReply2 = Post.createReplyMessage(user1, "Duvida!");
+		ReplyMessage messageReply3 = Post.createReplyMessage(user2, "Explicacao");
 
 		Post newPost = Post.createPost("Tenho uma pergunta", user1.get_id(), message);
 		postRepo.store(newPost);

@@ -15,9 +15,44 @@ postController.controller('mainCtrl', function($scope, $http, $cookieStore,
 		});
 	};
 
-	$scope.fetchPostsCount = function() {
-		$http.get('rest/post/count').success(function(data) {
-			$scope.postsTotal = data;
+	$scope.fetchUser = function() {
+
+		var cookieEmail = $cookieStore.get('email');
+
+		if (cookieEmail !== undefined) {
+
+			$scope.logedUser = User.get({
+				email : cookieEmail
+			});
+		}
+	};
+
+	$scope.postSubmit = function() {
+
+		UserPost.save({
+			userId : $scope.logedUser._id
+		}, $scope.post, function() {
+			$scope.refreshView();
+		});
+	};
+
+	$scope.refreshView = function() {
+
+		$scope.fetchPosts();
+		$scope.fetchUser();
+	};
+
+	$scope.refreshView();
+
+});
+
+postController.controller('postCtrl', function($scope, $routeParams, $location, $cookieStore, User, Post, PostReply) {
+
+	$scope.fetchPost = function() {
+		$scope.post = Post.get({
+			postId : $routeParams.postId
+		}, function() {
+
 		});
 	};
 
@@ -32,46 +67,32 @@ postController.controller('mainCtrl', function($scope, $http, $cookieStore,
 			});
 		}
 	};
+	
+	$scope.replySubmit = function() {
 
-	$scope.remove = function(id) {
-		Post.remove({
-			postId : id
-		}, function() {
+		PostReply.save({
+			userId : $scope.logedUser._id,
+			postId : $routeParams.postId
+		}, $scope.reply, function() {
 			$scope.refreshView();
 		});
 	};
 
-	$scope.postSubmit = function() {
-
-		UserPost.save({
-			userId : $scope.logedUser._id
-		}, $scope.post, function() {
-			$scope.refreshView();
-		});
-	};
-
-	$scope.refreshView = function() {
-		$scope.fetchPostsCount();
-		$scope.fetchPosts();
-		$scope.fetchUser();
-	};
-
-	$scope.refreshView();
-
-});
-
-postController.controller('postCtrl', function($scope, $routeParams, Post) {
-
-	$scope.post = Post.get({
-		postId : $routeParams.postId
-	}, function() {
-	});
 
 	$scope.remove = function() {
 		Post.remove({
 			postId : $routeParams.postId
+		}, function() {
+			$location.path('/');
 		});
 	};
+
+	$scope.refreshView = function() {
+		$scope.fetchPost();
+		$scope.fetchUser();
+	}
+	
+	$scope.refreshView();
 
 });
 

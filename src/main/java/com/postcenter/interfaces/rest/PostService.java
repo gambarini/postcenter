@@ -23,6 +23,7 @@ import com.postcenter.domain.model.post.ReplyMessage;
 import com.postcenter.domain.model.user.IUserRepository;
 import com.postcenter.domain.model.user.User;
 import com.postcenter.interfaces.rest.dto.PostDTO;
+import com.postcenter.interfaces.rest.dto.ReplyDTO;
 import com.postcenter.interfaces.rest.facade.PostFacade;
 
 @Path("/")
@@ -51,11 +52,12 @@ public class PostService {
 	public Response getPost(@PathParam("id") String id) {
 
 		Post post = postRepository.findPostById(id);
-
+		PostDTO postDTO = PostFacade.toPostDTO(post, userRepository);
+		
 		if (post == null)
 			return Response.status(Status.NOT_FOUND).build();
 
-		return Response.status(Status.OK).entity(post).build();
+		return Response.status(Status.OK).entity(postDTO).build();
 	}
 
 
@@ -113,7 +115,7 @@ public class PostService {
 	@Path("/user/{userId}/post/{postId}/reply")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response replyPost(@PathParam("userId") String userId, @PathParam("postId") String postId, ReplyMessage reply) {
+	public Response replyPost(@PathParam("userId") String userId, @PathParam("postId") String postId, ReplyDTO replyDTO) {
 
 		User user = userRepository.findUserById(userId);
 
@@ -125,14 +127,14 @@ public class PostService {
 		if (post == null)
 			return Response.status(Status.NOT_FOUND).build();
 
-		if (reply == null)
+		if (replyDTO == null)
 			return Response.status(Status.BAD_REQUEST).build();
-
-		post.reply(reply);
+		ReplyMessage replyMessage = Post.createReplyMessage(user, replyDTO.getMessage());
+		post.reply(replyMessage);
 
 		postRepository.store(post);
 
-		return Response.status(Status.CREATED).entity(reply).build();
+		return Response.status(Status.CREATED).entity(replyMessage).build();
 	}
 
 

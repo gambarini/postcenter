@@ -10,6 +10,11 @@ service.factory('UserPost', function($resource) {
 	return $resource('rest/user/:userId/post/:postId');
 });
 
+service.factory('PostReply', function($resource) {
+	return $resource('rest/user/:userId/post/:postId/reply');
+});
+
+
 service.factory('User', function($resource) {
 	return $resource('rest/user/:userId');
 });

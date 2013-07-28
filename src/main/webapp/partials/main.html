@@ -1,4 +1,4 @@
-<div>Posts Total: {{postsTotal}}</div>
+
  <ul class="nav nav-tabs nav-stacked">
     <li ng-repeat="post in posts">
 	    <a ng-href="#{{post.id}}">
@@ -7,8 +7,6 @@
 	    <span> - </span>
     	<span>{{post.createDate | date:'medium'}}</span>
     	<span> by {{post.userName}}</span>
-	    <span>&nbsp; | &nbsp;</span>
-	    <button type="button" ng-click="remove('{{post.id}}');">remove</button>
 	    <p>{{post.message}}</p> 
     </li>
  </ul>

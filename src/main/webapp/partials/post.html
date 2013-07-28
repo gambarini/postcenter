@@ -1,27 +1,49 @@
 <h3>
 <span>{{post.title}}</span>
 <span> - </span>
-<span>{{post.message.date | date:'medium'}}</span>
-<span> by {{post.user.name}}</span>
+<span>{{post.createDate | date:'medium'}}</span>
+<span> by {{post.userName}}</span>
 
 </h3>
 <p>
-	<span>{{post.message.text}}</span>
+	<span>{{post.message}}</span>
 </p>
 <div>
 <Span>Reply:</Span>
 <ul class="nav nav-tabs nav-stacked">
     <li ng-repeat="reply in post.replys">
-	    	<span>{{reply.text}}</span>
+	    	<span>{{reply.message}}</span>
 	    	<span> - </span>
-	    	<span>{{reply.date | date:'medium'}}</span>
-	    	<span> by {{reply.user.name}}</span>
+	    	<span>{{reply.createDate | date:'medium'}}</span>
+	    	<span> by {{reply.userName}}</span>
     </li>
 </ul>
 <a ng-href="#">back</a>
-<span>&nbsp; | &nbsp;</span>
-<a ng-href="#" ng-click="remove();">remove</a>
+	<span ng-hide="logedUser === undefined">
+		<span>&nbsp; | &nbsp;</span> <a ng-href="#" ng-click="remove();">remove</a>
+	</span>
 </div>
+<hr>
+ <form ng-submit="replySubmit()" ng-hide="logedUser === undefined">
+ <fieldset>
+ 		<div>
+			<label>You are logged as: {{logedUser.name}}</label> <br/><br/>
+		</div>
+ 
+		<div>
+			<label>Message</label> <br/>
+			<textarea ng-model="reply.message" rows="6" cols="150" required></textarea>
+
+		</div>
+		<div>
+			<input type="submit" />
+		</div>
+	</fieldset>
+ 
+ </form>
+ 
+ <hr>
+
 <hr>
 <pre>
     {{post | json}}
