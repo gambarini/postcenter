@@ -2,6 +2,7 @@ package com.postcenter.interfaces.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -39,9 +40,11 @@ public class UserService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserByFilter(@QueryParam("email") String email){
+	public Response getUserByFilter(@CookieParam("email") String email){
 		
 		User user = userRepository.findUserByEmail(email);
+		
+		if (user == null) return Response.status(Status.NOT_FOUND).build();
 		
 		return Response.status(Status.OK).entity(user).build();
 	}

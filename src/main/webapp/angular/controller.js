@@ -1,8 +1,8 @@
 var postController = angular.module('postController',
 		[ 'services', 'ngCookies' ]);
 
-postController.controller('mainCtrl', function($scope, $http, $cookieStore,
-		Post, UserPost, User) {
+postController.controller('mainCtrl', function($scope, $http, Post, UserPost,
+		User) {
 
 	$scope.post = {
 		title : "",
@@ -17,14 +17,7 @@ postController.controller('mainCtrl', function($scope, $http, $cookieStore,
 
 	$scope.fetchUser = function() {
 
-		var cookieEmail = $cookieStore.get('email');
-
-		if (cookieEmail !== undefined) {
-
-			$scope.logedUser = User.get({
-				email : cookieEmail
-			});
-		}
+		$scope.logedUser = User.get({});
 	};
 
 	$scope.postSubmit = function() {
@@ -32,7 +25,7 @@ postController.controller('mainCtrl', function($scope, $http, $cookieStore,
 		UserPost.save({
 			userId : $scope.logedUser._id
 		}, $scope.post, function() {
-			$scope.refreshView();
+			$scope.fetchPosts();
 		});
 	};
 
@@ -46,7 +39,8 @@ postController.controller('mainCtrl', function($scope, $http, $cookieStore,
 
 });
 
-postController.controller('postCtrl', function($scope, $routeParams, $location, $cookieStore, User, Post, PostReply) {
+postController.controller('postCtrl', function($scope, $routeParams, $location,
+		User, Post, PostReply) {
 
 	$scope.fetchPost = function() {
 		$scope.post = Post.get({
@@ -58,26 +52,18 @@ postController.controller('postCtrl', function($scope, $routeParams, $location, 
 
 	$scope.fetchUser = function() {
 
-		var cookieEmail = $cookieStore.get('email');
-
-		if (cookieEmail !== undefined) {
-
-			$scope.logedUser = User.get({
-				email : cookieEmail
-			});
-		}
+		$scope.logedUser = User.get({});
 	};
-	
+
 	$scope.replySubmit = function() {
 
 		PostReply.save({
 			userId : $scope.logedUser._id,
 			postId : $routeParams.postId
 		}, $scope.reply, function() {
-			$scope.refreshView();
+			$scope.fetchPost();
 		});
 	};
-
 
 	$scope.remove = function() {
 		Post.remove({
@@ -91,7 +77,7 @@ postController.controller('postCtrl', function($scope, $routeParams, $location, 
 		$scope.fetchPost();
 		$scope.fetchUser();
 	}
-	
+
 	$scope.refreshView();
 
 });
@@ -108,15 +94,13 @@ postController.controller('userCtrl', function($scope, $routeParams, $location,
 
 });
 
-postController.controller('loginCtrl', function($scope, $location,
-		$cookieStore, Auth) {
+postController.controller('loginCtrl', function($scope, $location, Auth) {
 
 	$scope.loginSubmit = function() {
 
 		Auth.login("email=" + loginForm.email.value + "&password="
 				+ loginForm.password.value, function(data) {
-			$cookieStore.put('email', loginForm.email.value);
-			$cookieStore.put('token', data);
+
 			$location.path('/');
 
 		});

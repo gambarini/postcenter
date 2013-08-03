@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -21,16 +22,16 @@ public class AuthenticationService {
 
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response authentication(@FormParam("email") @DefaultValue("") String email, @FormParam("password") @DefaultValue("") String password) {
+	public Response authentication(@FormParam(Authentication.COOKIE_EMAIL) @DefaultValue("") String email, @FormParam("password") @DefaultValue("") String password) {
 
-		Authentication auth = authenticationRepository.findAuthtentication(password, email);
+		Authentication auth = authenticationRepository.findAuthentication(password, email);
 
 		if (auth == null)
 			return Response.status(Status.FORBIDDEN).build();
 
 		String token = auth.authenticate();
-
-		return Response.status(Status.OK).entity(token).build();
+		
+		return Response.status(Status.OK).cookie(new NewCookie(Authentication.COOKIE_EMAIL, email), new NewCookie(Authentication.COOKIE_TOKEN, token)).build();
 	}
 
 

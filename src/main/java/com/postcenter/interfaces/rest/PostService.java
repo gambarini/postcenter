@@ -25,6 +25,7 @@ import com.postcenter.domain.model.user.User;
 import com.postcenter.interfaces.rest.dto.PostDTO;
 import com.postcenter.interfaces.rest.dto.ReplyDTO;
 import com.postcenter.interfaces.rest.facade.PostFacade;
+import com.postcenter.interfaces.rest.interceptors.Authenticate;
 
 @Path("/")
 public class PostService {
@@ -63,6 +64,7 @@ public class PostService {
 
 	@DELETE
 	@Path("/post/{id}")
+	@Authenticate
 	public Response deletePost(@PathParam("id") String id) {
 
 		Post post = postRepository.findPostById(id);
@@ -90,6 +92,7 @@ public class PostService {
 	@Path("/user/{id}/post")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Authenticate
 	public Response addPost(@PathParam("id") String userId, PostDTO postDTO) {
 
 		if (postDTO == null)
@@ -115,6 +118,7 @@ public class PostService {
 	@Path("/user/{userId}/post/{postId}/reply")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Authenticate
 	public Response replyPost(@PathParam("userId") String userId, @PathParam("postId") String postId, ReplyDTO replyDTO) {
 
 		User user = userRepository.findUserById(userId);

@@ -13,9 +13,15 @@
 		<param-value>/rest</param-value>
 	</context-param>
 
+	<context-param>
+		<param-name>resteasy.providers</param-name>
+		<param-value>com.postcenter.interfaces.rest.interceptors.AuthenticationInterceptor</param-value>
+	</context-param>
+
 	<listener>
 		<listener-class>
-			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
 	</listener>
 
 	<!-- ** INSERT YOUR LISTENERS HERE!!!! -->
@@ -23,7 +29,8 @@
 	<servlet>
 		<servlet-name>Resteasy</servlet-name>
 		<servlet-class>
-			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

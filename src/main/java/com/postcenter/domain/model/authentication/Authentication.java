@@ -11,6 +11,8 @@ public class Authentication extends Entity {
 	private String token;
 	protected Date lastAuthentication;
 	private String userId;
+	public static final String COOKIE_EMAIL = "email";
+	public static final String COOKIE_TOKEN = "token";
 
 	protected Authentication() {
 

@@ -44,9 +44,9 @@ public class AuthenticationTest {
 		Authentication authentication = Authentication.createAuthentication(user.get_id(), "password");
 		authRepo.store(authentication);
 
-		Authentication authFound = authRepo.findAuthtentication("password", "nameless@mail.com");
-		Authentication authNotFound1 = authRepo.findAuthtentication("pass", "nameless@mail.com");
-		Authentication authNotFound2 = authRepo.findAuthtentication("password", "name@mail.com");
+		Authentication authFound = authRepo.findAuthentication("password", "nameless@mail.com");
+		Authentication authNotFound1 = authRepo.findAuthentication("pass", "nameless@mail.com");
+		Authentication authNotFound2 = authRepo.findAuthentication("password", "name@mail.com");
 
 		Assert.assertEquals(user.get_id(), authFound.getUserId());
 		Assert.assertNull(authNotFound1);
@@ -104,8 +104,40 @@ public class AuthenticationTest {
 
 		authRepo.store(authentication);
 
-		authentication = authRepo.findAuthtentication("password", "nameless@mail.com");
+		authentication = authRepo.findAuthentication("password", "nameless@mail.com");
 
 		Assert.assertEquals(true, authentication.isAuthtenticated(token));
+	}
+	
+	@Test
+	public void testTokenAuthentication(){
+		User user = new User("Nameless One", "nameless@mail.com");
+		userRepo.store(user);
+
+		Authentication authentication = Authentication.createAuthentication(user.get_id(), "password");
+
+		String token = authentication.authenticate();
+
+		authRepo.store(authentication);
+
+		authentication = authRepo.findAuthenticationByToken(user.getEmail(), token);
+
+		Assert.assertEquals(true, authentication.isAuthtenticated(token));
+	}
+
+	@Test
+	public void testTokenAuthenticationFail(){
+		User user = new User("Nameless One", "nameless@mail.com");
+		userRepo.store(user);
+		
+		Authentication authentication = Authentication.createAuthentication(user.get_id(), "password");
+		
+		authentication.authenticate();
+		
+		authRepo.store(authentication);
+		
+		authentication = authRepo.findAuthenticationByToken(user.getEmail(), "invalidToken");
+		
+		Assert.assertNull(authentication);
 	}
 }
