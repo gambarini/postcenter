@@ -11,10 +11,11 @@
     </li>
  </ul>
  <hr>
+ <div ng-hide="!(logedUser.name === undefined)"><a href="#/user">Create User</a><span> | </span><a href="#/authentication">Login</a></div>
  <form ng-submit="postSubmit()" ng-hide="logedUser.name === undefined">
  <fieldset>
  		<div>
-			<label>You are logged as: {{logedUser.name}}</label> <br/><br/>
+			<label>You are logged as: {{logedUser.name}}</label> <span> | </span> <a href="#/" ng-click="logout()">Log out</a> <br/><br/>
 		</div>
  
 		<div>

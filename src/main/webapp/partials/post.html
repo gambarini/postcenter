@@ -19,15 +19,15 @@
     </li>
 </ul>
 <a ng-href="#">back</a>
-	<span ng-hide="logedUser === undefined">
-		<span>&nbsp; | &nbsp;</span> <a ng-href="#" ng-click="remove();">remove</a>
+	<span ng-hide="logedUser === undefined || logedUser._id != post.userId">
+		<span>&nbsp; | &nbsp;</span> <a ng-href="#/" ng-click="remove();">remove</a>
 	</span>
 </div>
 <hr>
  <form ng-submit="replySubmit()" ng-hide="logedUser.name === undefined">
  <fieldset>
  		<div>
-			<label>You are logged as: {{logedUser.name}}</label> <br/><br/>
+			<label>You are logged as: {{logedUser.name}}</label> <span> | </span> <a href="#/"  ng-click="logout()">Logout</a> <br/><br/>
 		</div>
  
 		<div>

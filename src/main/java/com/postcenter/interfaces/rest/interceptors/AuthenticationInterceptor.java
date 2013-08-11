@@ -39,20 +39,29 @@ public class AuthenticationInterceptor implements PreProcessInterceptor, Accepte
 	public ServerResponse preProcess(HttpRequest httpRequest, ResourceMethod resourceMethod) throws Failure, WebApplicationException {
 
 		Map<String, Cookie> cookies = httpRequest.getHttpHeaders().getCookies();
+		
 
 		if (cookies.containsKey(Authentication.COOKIE_EMAIL) && cookies.containsKey(Authentication.COOKIE_TOKEN)) {
 
 			String email = cookies.get(Authentication.COOKIE_EMAIL).getValue();
 			String token = cookies.get(Authentication.COOKIE_TOKEN).getValue();
-
+			
 			Authentication authentication = authRepository.findAuthenticationByToken(email, token);
+			
 			if (authentication != null && authentication.isAuthtenticated(token)) {
+				
 				token = authentication.authenticate();
+				authRepository.store(authentication);
+				
 				cookies.put(Authentication.COOKIE_TOKEN, new Cookie(Authentication.COOKIE_TOKEN, token));
 				return null;
 			}
+			else {
+				cookies.remove(Authentication.COOKIE_EMAIL);
+				cookies.remove(Authentication.COOKIE_TOKEN);
+			}
 		}
 
-		return new ServerResponse("User+unauthenticated", Status.FORBIDDEN.getStatusCode(), new Headers<Object>());
+		return new ServerResponse("User unauthenticated", Status.FORBIDDEN.getStatusCode(), new Headers<Object>());
 	}
 }

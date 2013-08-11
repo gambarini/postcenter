@@ -11,9 +11,16 @@ public class PostDTO {
 	private String message;
 	private Date createDate;
 	private String userName;
+	private String userId;
 	private Collection<ReplyDTO> replys = new ArrayList<ReplyDTO>();
 	
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getId() {
 		return id;
 	}

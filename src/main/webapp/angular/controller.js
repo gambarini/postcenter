@@ -1,7 +1,7 @@
 var postController = angular.module('postController',
 		[ 'services', 'ngCookies' ]);
 
-postController.controller('mainCtrl', function($scope, $http, Post, UserPost,
+postController.controller('mainCtrl', function($scope, $http, $location, Post, Auth,
 		User) {
 
 	$scope.post = {
@@ -22,10 +22,16 @@ postController.controller('mainCtrl', function($scope, $http, Post, UserPost,
 
 	$scope.postSubmit = function() {
 
-		UserPost.save({
-			userId : $scope.logedUser._id
-		}, $scope.post, function() {
+		Post.save({}, $scope.post, function() {
 			$scope.fetchPosts();
+		}, function() {
+			$location.path('/authentication')
+		});
+	};
+	
+	$scope.logout = function() {
+		Auth.delete({}, function() {
+			$scope.logedUser = undefined;
 		});
 	};
 
@@ -40,7 +46,7 @@ postController.controller('mainCtrl', function($scope, $http, Post, UserPost,
 });
 
 postController.controller('postCtrl', function($scope, $routeParams, $location,
-		User, Post, PostReply) {
+		User, Post, PostReply, Auth) {
 
 	$scope.fetchPost = function() {
 		$scope.post = Post.get({
@@ -58,18 +64,28 @@ postController.controller('postCtrl', function($scope, $routeParams, $location,
 	$scope.replySubmit = function() {
 
 		PostReply.save({
-			userId : $scope.logedUser._id,
 			postId : $routeParams.postId
 		}, $scope.reply, function() {
 			$scope.fetchPost();
+		}, function() {
+			$location.path('/authentication');
 		});
 	};
+	
+	$scope.logout = function() {
+		Auth.delete({},{}, function() {
+			$scope.logedUser = undefined;
+		});
+	};
+
 
 	$scope.remove = function() {
 		Post.remove({
 			postId : $routeParams.postId
 		}, function() {
 			$location.path('/');
+		}, function() {
+			$location.path('/authentication')
 		});
 	};
 
@@ -104,7 +120,5 @@ postController.controller('loginCtrl', function($scope, $location, Auth) {
 			$location.path('/');
 
 		});
-
 	};
-
 });

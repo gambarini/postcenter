@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.postcenter.domain.model.authentication.Authentication;
 import com.postcenter.domain.model.post.IPostRepository;
 import com.postcenter.domain.model.post.Post;
 import com.postcenter.domain.model.post.PostMessage;
@@ -27,7 +29,7 @@ import com.postcenter.interfaces.rest.dto.ReplyDTO;
 import com.postcenter.interfaces.rest.facade.PostFacade;
 import com.postcenter.interfaces.rest.interceptors.Authenticate;
 
-@Path("/")
+@Path("/post")
 public class PostService {
 
 	@Inject
@@ -38,7 +40,6 @@ public class PostService {
 
 
 	@GET
-	@Path("/post")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTopPosts(@DefaultValue("5") @QueryParam("top") int topQuantity) {
 		
@@ -48,7 +49,7 @@ public class PostService {
 	}
 
 	@GET
-	@Path("/post/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPost(@PathParam("id") String id) {
 
@@ -63,14 +64,19 @@ public class PostService {
 
 
 	@DELETE
-	@Path("/post/{id}")
+	@Path("/{id}")
 	@Authenticate
-	public Response deletePost(@PathParam("id") String id) {
+	public Response deletePost(@CookieParam(Authentication.COOKIE_EMAIL) String email, @PathParam("id") String id) {
 
 		Post post = postRepository.findPostById(id);
 
 		if (post == null)
 			return Response.status(Status.NOT_FOUND).build();
+
+		User user = userRepository.findUserByEmail(email);
+		System.out.println(post.getUserId() + " " + user.get_id());
+		if(user == null || post.getUserId() != user.get_id())
+			return Response.status(Status.FORBIDDEN).build();
 
 		postRepository.remove(post);
 
@@ -78,7 +84,7 @@ public class PostService {
 	}
 
 	@GET
-	@Path("/post/count")
+	@Path("/count")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response totalPosts() {
 
@@ -89,22 +95,21 @@ public class PostService {
 	}
 	
 	@POST
-	@Path("/user/{id}/post")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Authenticate
-	public Response addPost(@PathParam("id") String userId, PostDTO postDTO) {
+	public Response addPost(@CookieParam("email") String email, PostDTO postDTO) {
 
 		if (postDTO == null)
 			return Response.status(Status.BAD_REQUEST).build();
 
-		User user = userRepository.findUserById(userId);
+		User user = userRepository.findUserByEmail(email);
 
 		if (user == null)
 			return Response.status(Status.FORBIDDEN).build();
 
 		PostMessage postMessage = Post.createPostMessage(postDTO.getMessage());
-		Post post = Post.createPost(postDTO.getTitle(), userId, postMessage);
+		Post post = Post.createPost(postDTO.getTitle(), user.get_id(), postMessage);
 
 		if (!post.isValid())
 			return Response.status(Status.BAD_REQUEST).build();
@@ -115,13 +120,13 @@ public class PostService {
 	}
 	
 	@POST
-	@Path("/user/{userId}/post/{postId}/reply")
+	@Path("/{postId}/reply")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Authenticate
-	public Response replyPost(@PathParam("userId") String userId, @PathParam("postId") String postId, ReplyDTO replyDTO) {
+	public Response replyPost(@CookieParam("email") String email, @PathParam("postId") String postId, ReplyDTO replyDTO) {
 
-		User user = userRepository.findUserById(userId);
+		User user = userRepository.findUserByEmail(email);
 
 		if (user == null)
 			return Response.status(Status.FORBIDDEN).build();

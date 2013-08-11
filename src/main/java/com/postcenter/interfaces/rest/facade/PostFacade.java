@@ -47,6 +47,7 @@ public class PostFacade {
 		}
 
 		User user = userRepository.findUserById(post.getUserId());
+		postDTO.setUserId(user.get_id());
 		postDTO.setUserName(user.getName());
 		return postDTO;
 	}

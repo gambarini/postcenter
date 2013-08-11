@@ -1,6 +1,7 @@
 package com.postcenter.interfaces.rest;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -22,7 +23,7 @@ public class AuthenticationService {
 
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response authentication(@FormParam(Authentication.COOKIE_EMAIL) @DefaultValue("") String email, @FormParam("password") @DefaultValue("") String password) {
+	public Response authentication(@FormParam("email") @DefaultValue("") String email, @FormParam("password") @DefaultValue("") String password) {
 
 		Authentication auth = authenticationRepository.findAuthentication(password, email);
 
@@ -31,7 +32,15 @@ public class AuthenticationService {
 
 		String token = auth.authenticate();
 		
-		return Response.status(Status.OK).cookie(new NewCookie(Authentication.COOKIE_EMAIL, email), new NewCookie(Authentication.COOKIE_TOKEN, token)).build();
+		authenticationRepository.store(auth);
+		
+		return Response.status(Status.CREATED).cookie(new NewCookie(Authentication.COOKIE_EMAIL, email), new NewCookie(Authentication.COOKIE_TOKEN, token)).build();
+	}
+	
+	@DELETE
+	public Response authentication(){
+		
+		return Response.status(Status.ACCEPTED).cookie(new NewCookie(Authentication.COOKIE_EMAIL, null), new NewCookie(Authentication.COOKIE_TOKEN, null)).build();
 	}
 
 
