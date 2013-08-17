@@ -1,30 +1,63 @@
-
- <ul class="nav nav-tabs nav-stacked">
-    <li ng-repeat="post in posts">
-	    <a ng-href="#{{post.id}}">
-	    	<span>{{post.title}}</span>
-	    </a>
-	    <span> - </span>
-    	<span>{{post.createDate | date:'medium'}}</span>
-    	<span> by {{post.userName}}</span>
-	    <p>{{post.message}}</p> 
-    </li>
- </ul>
- <hr>
- <div ng-hide="!(logedUser.name === undefined)"><a href="#/user">Create User</a><span> | </span><a href="#/authentication">Login</a></div>
- <form ng-submit="postSubmit()" ng-hide="logedUser.name === undefined">
- <fieldset>
- 		<div>
-			<label>You are logged as: {{logedUser.name}}</label> <span> | </span> <a href="#/" ng-click="logout()">Log out</a> <br/><br/>
+<div class="content">
+	<article class="article">
+		<div id="content_box">
+			<div class="post excerpt " ng-repeat="post in posts">
+				<header>
+					<div class="bubble">
+						<a href="#">0</a>
+					</div>
+					<h2 class="title">
+						<a ng-href="#{{post.id}}" rel="bookmark">{{post.title}}</a>
+					</h2>
+					<div class="post-info">
+						<span class="theauthor"><a href="#" rel="author">{{post.userName}}</a></span>
+						<time>{{post.createDate | date:'medium'}}</time>
+						<span class="thecategory"><a href="#" rel="category tag">-</a></span>
+					</div>
+				</header>
+				<!--.header-->
+				<div class="post-content image-caption-format-1">
+					<p>{{post.message}}</p>
+					<p class="more">
+						<a href="#">Read More</a>
+					</p>
+				</div>
+			</div>
 		</div>
- 
+	</article>
+	<aside class="sidebar c-4-12">
+		<div id="sidebars" class="g">
+			<div class="sidebar">
+				<ul class="sidebar_list">
+					<li class="widget widget-sidebar">
+						<h3>Recent Posts</h3>
+						<ul>
+							<li ng-repeat="post in posts"><a ng-href="#{{post.id}}" rel="bookmark">{{post.title}}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</aside>
+</div>
+<div ng-hide="!(logedUser.name === undefined)">
+	<a href="#/user">Create User</a><span> | </span><a
+		href="#/authentication">Login</a>
+</div>
+<form ng-submit="postSubmit()" ng-hide="logedUser.name === undefined">
+	<fieldset>
 		<div>
-			<label>Title</label> <br/>
-			<input type="text" ng-model="post.title" required /> 
+			<label>You are logged as: {{logedUser.name}}</label> <span> |
+			</span> <a href="#/" ng-click="logout()">Log out</a> <br /> <br />
+		</div>
+
+		<div>
+			<label>Title</label> <br /> <input type="text" ng-model="post.title"
+				required />
 
 		</div>
 		<div>
-			<label>Message</label> <br/>
+			<label>Message</label> <br />
 			<textarea ng-model="post.message" rows="6" cols="150" required></textarea>
 
 		</div>
@@ -32,10 +65,7 @@
 			<input type="submit" />
 		</div>
 	</fieldset>
- 
- </form>
- 
- <hr>
+</form>
 <pre>
     {{posts | json}}
 </pre>
