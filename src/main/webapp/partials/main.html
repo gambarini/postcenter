@@ -29,10 +29,52 @@
 		<div id="sidebars" class="g">
 			<div class="sidebar">
 				<ul class="sidebar_list">
+					<span ng-hide="!(logedUser.name === undefined)">
+						<li class="widget widget-sidebar">
+							<h3>
+								<a href="#/user">Create User</a>
+							</h3>
+						</li>
+						<li class="widget widget-sidebar">
+							<h3>
+								<a href="#/authentication">Login</a>
+							</h3>
+						</li>
+					</span>
+					<span ng-hide="logedUser.name === undefined">
+						<li class="widget widget-sidebar">
+							<h3>Welcome {{logedUser.name}}</h3>
+						</li>
+						<li class="widget widget-sidebar">
+							<h3>
+								<a href="#/" ng-click="logout()">Log out</a>
+							</h3>
+						</li>
+						<li class="widget widget-sidebar">
+							<h3>Write a post</h3>
+							<form ng-submit="postSubmit()">
+								<fieldset>
+									<div>
+										<label>Title</label> <br /> <input type="text"
+											ng-model="post.title" required />
+									</div>
+									<div>
+										<label>Message</label> <br />
+										<textarea ng-model="post.message" required></textarea>
+
+									</div>
+									<div>
+										<input type="submit" />
+									</div>
+								</fieldset>
+							</form>
+						</li>
+					</span>
 					<li class="widget widget-sidebar">
 						<h3>Recent Posts</h3>
 						<ul>
-							<li ng-repeat="post in posts"><a ng-href="#{{post.id}}" rel="bookmark">{{post.title}}</a></li>
+							<li ng-repeat="post in posts"><a ng-href="#{{post.id}}"
+								rel="bookmark">{{post.title}}</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -40,32 +82,7 @@
 		</div>
 	</aside>
 </div>
-<div ng-hide="!(logedUser.name === undefined)">
-	<a href="#/user">Create User</a><span> | </span><a
-		href="#/authentication">Login</a>
-</div>
-<form ng-submit="postSubmit()" ng-hide="logedUser.name === undefined">
-	<fieldset>
-		<div>
-			<label>You are logged as: {{logedUser.name}}</label> <span> |
-			</span> <a href="#/" ng-click="logout()">Log out</a> <br /> <br />
-		</div>
 
-		<div>
-			<label>Title</label> <br /> <input type="text" ng-model="post.title"
-				required />
-
-		</div>
-		<div>
-			<label>Message</label> <br />
-			<textarea ng-model="post.message" rows="6" cols="150" required></textarea>
-
-		</div>
-		<div>
-			<input type="submit" />
-		</div>
-	</fieldset>
-</form>
 <pre>
     {{posts | json}}
 </pre>
