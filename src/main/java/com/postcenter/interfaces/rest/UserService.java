@@ -17,6 +17,7 @@ import com.postcenter.domain.model.authentication.IAuthenticationRepository;
 import com.postcenter.domain.model.user.IUserRepository;
 import com.postcenter.domain.model.user.User;
 import com.postcenter.interfaces.rest.dto.UserDTO;
+import com.postcenter.interfaces.rest.interceptors.Authenticate;
 
 @Path("/user")
 public class UserService {
@@ -39,6 +40,7 @@ public class UserService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Authenticate
 	public Response getUserByFilter(@CookieParam("email") String email){
 		
 		User user = userRepository.findUserByEmail(email);

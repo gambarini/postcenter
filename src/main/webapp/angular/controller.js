@@ -19,7 +19,7 @@ postController.controller('mainCtrl', function($scope, $http, $location, Post, A
 
 	$scope.fetchUser = function() {
 
-		$scope.logedUser = User.get({});
+		$scope.logedUser = User.get({},function() {}, function() {});
 	};
 
 	$scope.postSubmit = function() {
@@ -60,7 +60,7 @@ postController.controller('postCtrl', function($scope, $routeParams, $location,
 
 	$scope.fetchUser = function() {
 
-		$scope.logedUser = User.get({});
+		$scope.logedUser = User.get({},function() {}, function() {});
 	};
 
 	$scope.replySubmit = function() {

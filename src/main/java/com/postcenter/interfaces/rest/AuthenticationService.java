@@ -29,7 +29,7 @@ public class AuthenticationService {
 
 		if (auth == null)
 			return Response.status(Status.FORBIDDEN).build();
-
+		
 		String token = auth.authenticate();
 		
 		authenticationRepository.store(auth);
