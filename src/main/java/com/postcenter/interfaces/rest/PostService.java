@@ -66,16 +66,16 @@ public class PostService {
 	@DELETE
 	@Path("/{id}")
 	@Authenticate
-	public Response deletePost(@CookieParam(Authentication.COOKIE_EMAIL) String email, @PathParam("id") String id) {
+	public Response deletePost(@CookieParam(Authentication.COOKIE_EMAIL) String email, @PathParam("id") String postId) {
 
-		Post post = postRepository.findPostById(id);
+		Post post = postRepository.findPostById(postId);
 
 		if (post == null)
 			return Response.status(Status.NOT_FOUND).build();
 
 		User user = userRepository.findUserByEmail(email);
-		System.out.println(post.getUserId() + " " + user.get_id());
-		if(user == null || post.getUserId() != user.get_id())
+		
+		if(post.validateRemoval(user))
 			return Response.status(Status.FORBIDDEN).build();
 
 		postRepository.remove(post);
@@ -126,6 +126,9 @@ public class PostService {
 	@Authenticate
 	public Response replyPost(@CookieParam("email") String email, @PathParam("postId") String postId, ReplyDTO replyDTO) {
 
+		if (replyDTO == null)
+			return Response.status(Status.BAD_REQUEST).build();
+		
 		User user = userRepository.findUserByEmail(email);
 
 		if (user == null)
@@ -136,8 +139,6 @@ public class PostService {
 		if (post == null)
 			return Response.status(Status.NOT_FOUND).build();
 
-		if (replyDTO == null)
-			return Response.status(Status.BAD_REQUEST).build();
 		ReplyMessage replyMessage = Post.createReplyMessage(user, replyDTO.getMessage());
 		post.reply(replyMessage);
 

@@ -63,6 +63,10 @@ public class Post extends Entity {
 		return !(this.title.isEmpty() || this.message.getText().isEmpty() || this.userId == null);
 	}
 
+	public boolean validateRemoval(User user) {
+		return !(user == null || getUserId() != user.get_id());
+	}
+
 	public static PostMessage createPostMessage(String text) {
 		return new PostMessage(text);
 	}
@@ -73,3 +77,7 @@ public class Post extends Entity {
 
 
 }
+
+
+
+

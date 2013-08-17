@@ -80,17 +80,16 @@ public class PostMongoRepository extends GenericMongoRepository implements IPost
 		return postsList;
 	}
 
-	
 	public void fetchReplyMessage(Post post) {
 		Iterable<ReplyMessage> replys = replyCollection.find(this.createFilter("postId", post.get_id())).sort(this.createSort("_id", true)).as(ReplyMessage.class);
 
-		for (ReplyMessage reply : replys) {			
+		for (ReplyMessage reply : replys) {
 			post.reply(reply);
 		}
 	}
-	
+
 	@Override
-	public long findPostsTotal(){
+	public long findPostsTotal() {
 		return postCollection.count();
 	}
 }

@@ -141,7 +141,7 @@ public class PostTest {
 	
 	@Test
 	public void testIsValid() {
-		User user = new User("†ser", "user@user.com");
+		User user = new User("User", "user@user.com");
 		userRepo.store(user);
 		
 		Post validPost = Post.createPost("Valid Post", user.get_id(), Post.createPostMessage("Mensagem"));
@@ -153,6 +153,18 @@ public class PostTest {
 		Assert.assertEquals(false, invalidPost2.isValid());
 		
 	}
-	
+
+	@Test
+	public void testValidateRemoval() {
+		User userValid = new User("User", "user@user.com");
+		User userNotValid = new User("User", "user@user.com");
+		userRepo.store(userValid);
+		userRepo.store(userNotValid);
+		
+		Post post = Post.createPost("Valid Post", userValid.get_id(), Post.createPostMessage("Mensagem"));
+		
+		Assert.assertEquals(true, post.validateRemoval(userValid));
+		Assert.assertEquals(false, post.validateRemoval(userNotValid));
+	}
 
 }
