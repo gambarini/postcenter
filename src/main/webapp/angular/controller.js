@@ -1,5 +1,7 @@
+"use strict";
+
 var postController = angular.module('postController',
-		[ 'services', 'ngCookies' ]);
+		['services']);
 
 postController.controller('mainCtrl', function($scope, $http, $location, Post, Auth,
 		User) {

@@ -2,16 +2,18 @@ package com.postcenter.domain.model.post;
 
 import java.util.Collection;
 
-
-
-
 public interface IPostRepository {
 
-	 void store(Post post);
-	 void remove(Post post);
-	 void removeAll();
-	 Post findPostById(String id);
-	 public Collection<Post> findTopPosts(int topQuantity);
-	 long findPostsTotal();
+	public abstract void store(Post post);
+
+	public abstract void remove(Post post);
+
+	public abstract void removeAll();
+
+	public abstract Post findPostById(String id);
+
+	public abstract Collection<Post> findTopPosts(int topQuantity);
+
+	public abstract long findPostsTotal();
 
 }

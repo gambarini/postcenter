@@ -1,8 +1,11 @@
 package com.postcenter.domain.model.authentication;
 
 public interface IAuthenticationRepository {
-	void store(Authentication authentication);
-	Authentication findAuthentication(String password, String email);
-	Authentication findAuthenticationByToken(String email, String token);
-	void removeAll();
+	public abstract void store(Authentication authentication);
+
+	public abstract Authentication findAuthentication(String password, String email);
+
+	public abstract Authentication findAuthenticationByToken(String email, String token);
+
+	public abstract void removeAll();
 }
