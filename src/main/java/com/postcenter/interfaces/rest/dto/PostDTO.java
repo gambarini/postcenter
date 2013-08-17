@@ -12,9 +12,16 @@ public class PostDTO {
 	private Date createDate;
 	private String userName;
 	private String userId;
+	private int totalReplys;
 	private Collection<ReplyDTO> replys = new ArrayList<ReplyDTO>();
 	
 	
+	public int getTotalReplys() {
+		return totalReplys;
+	}
+	public void setTotalReplys(int totalReplys) {
+		this.totalReplys = totalReplys;
+	}
 	public String getUserId() {
 		return userId;
 	}

@@ -75,6 +75,7 @@ public class PostMongoRepository extends GenericMongoRepository implements IPost
 		Collection<Post> postsList = new ArrayList<Post>();
 		for (Post post : posts) {
 			postsList.add(post);
+			this.fetchReplyMessage(post);
 		}
 
 		return postsList;

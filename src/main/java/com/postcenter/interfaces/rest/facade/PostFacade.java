@@ -32,6 +32,7 @@ public class PostFacade {
 		postDTO.setTitle(post.getTitle());
 		postDTO.setMessage(post.getMessage().getText());
 		postDTO.setCreateDate(post.getMessage().getDate());
+		postDTO.setTotalReplys(post.getReplys().size());
 
 		for (ReplyMessage reply : post.getReplys()) {
 			ReplyDTO replyDTO = new ReplyDTO();
