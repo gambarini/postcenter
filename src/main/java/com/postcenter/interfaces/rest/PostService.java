@@ -112,7 +112,7 @@ public class PostService {
 		PostMessage postMessage = Post.createPostMessage(postDTO.getMessage());
 		Post post = Post.createPost(postDTO.getTitle(), user.get_id(), postMessage);
 
-		if (!post.isValid())
+		if (!post.isValid(null))
 			return Response.status(Status.BAD_REQUEST).build();
 
 		postRepository.store(post);

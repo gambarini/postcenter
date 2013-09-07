@@ -16,6 +16,7 @@ import com.postcenter.domain.model.authentication.Authentication;
 import com.postcenter.domain.model.authentication.IAuthenticationRepository;
 import com.postcenter.domain.model.user.IUserRepository;
 import com.postcenter.domain.model.user.User;
+import com.postcenter.infrastructure.persistence.mongodb.validator.UserPersistenceValidator;
 import com.postcenter.interfaces.rest.dto.NewUserDTO;
 import com.postcenter.interfaces.rest.facade.UserFacade;
 import com.postcenter.interfaces.rest.interceptors.Authenticate;
@@ -58,14 +59,14 @@ public class UserService {
 
 		User user = UserFacade.fromDTO(newUserDTO);
 
-		if (!user.isValid())
+		if (!user.isValid(new UserPersistenceValidator(userRepository)))
 			return Response.status(Status.BAD_REQUEST).build();
 
 		userRepository.store(user);
 
 		Authentication authentication = Authentication.createAuthentication(user.get_id(), newUserDTO.getPassword());
 
-		if (!authentication.isValid()) {
+		if (!authentication.isValid(null)) {
 			userRepository.remove(user);
 			return Response.status(Status.BAD_REQUEST).build();
 		}

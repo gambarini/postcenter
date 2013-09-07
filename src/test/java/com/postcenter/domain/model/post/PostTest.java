@@ -148,9 +148,9 @@ public class PostTest {
 		Post invalidPost1 = Post.createPost("", user.get_id(), Post.createPostMessage(""));
 		Post invalidPost2 = Post.createPost("No User", null, Post.createPostMessage("Where is the User?"));
 		
-		Assert.assertEquals(true, validPost.isValid());
-		Assert.assertEquals(false, invalidPost1.isValid());
-		Assert.assertEquals(false, invalidPost2.isValid());
+		Assert.assertEquals(true, validPost.isValid(null));
+		Assert.assertEquals(false, invalidPost1.isValid(null));
+		Assert.assertEquals(false, invalidPost2.isValid(null));
 		
 	}
 

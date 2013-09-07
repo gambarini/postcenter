@@ -2,9 +2,10 @@ package com.postcenter.domain.model.post;
 
 import java.util.Date;
 
+import com.postcenter.domain.model.IPersistenceValidator;
 import com.postcenter.domain.model.types.Entity;
 
-public class ReplyMessage extends Entity {
+public class ReplyMessage extends Entity<ReplyMessage> {
 	
 	private String userId;
 	private String text;
@@ -46,7 +47,7 @@ public class ReplyMessage extends Entity {
 	}
 
 	@Override
-	public boolean isValid() {
+	public boolean isValid(IPersistenceValidator<ReplyMessage> validator) {
 		
 		return false;
 	}

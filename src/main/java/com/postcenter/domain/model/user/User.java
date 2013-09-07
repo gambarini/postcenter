@@ -2,9 +2,11 @@ package com.postcenter.domain.model.user;
 
 import java.util.Date;
 
+import com.postcenter.domain.model.IPersistenceValidator;
 import com.postcenter.domain.model.types.Entity;
 
-public class User extends Entity {
+public class User extends Entity<User> {
+
 
 	private String name;
 	private String email;
@@ -33,15 +35,14 @@ public class User extends Entity {
 	}
 
 	@Override
-	public boolean isValid() {
+	public boolean isValid(IPersistenceValidator<User> validator) {
 
-		return !(this.name.isEmpty() || this.email.isEmpty());
+		return !(this.name.isEmpty() || this.email.isEmpty() || !validator.isPersistenceValid(this));
 	}
 	
 	public Date getCreateDate() {
 		return createDate;
 	}
-
 	
 	
 

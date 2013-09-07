@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.postcenter.infrastructure.persistence.mongodb.repositories.UserMongoRepository;
+import com.postcenter.infrastructure.persistence.mongodb.validator.UserPersistenceValidator;
 
 public class UserTest {
 
@@ -79,8 +80,19 @@ public class UserTest {
 		User validUser = new User("nameless One", "Nameless@email.com");
 		User invalidUser = new User("", "");
 		
-		Assert.assertEquals(true, validUser.isValid());
-		Assert.assertEquals(false, invalidUser.isValid());
+		Assert.assertEquals(true, validUser.isValid(new UserPersistenceValidator(userRepo)));
+		Assert.assertEquals(false, invalidUser.isValid(new UserPersistenceValidator(userRepo)));
+	}
+	
+	@Test
+	public void testIsValidSameEmail() {
+		
+		User user = new User("nameless One", "Nameless@email.com");
+		userRepo.store(user);
+		
+		User invalidUser = new User("nameless Two", "Nameless@email.com");
+		
+		Assert.assertEquals(false, invalidUser.isValid(new UserPersistenceValidator(userRepo)));
 	}
 
 }

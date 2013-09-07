@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.postcenter.domain.model.IPersistenceValidator;
 import com.postcenter.domain.model.types.Entity;
 import com.postcenter.domain.model.user.User;
 
-public class Post extends Entity {
+public class Post extends Entity<Post> {
 
 	private String userId;
 
@@ -59,7 +60,7 @@ public class Post extends Entity {
 	}
 
 	@Override
-	public boolean isValid() {
+	public boolean isValid(IPersistenceValidator<Post> validator) {
 		return !(this.title.isEmpty() || this.message.getText().isEmpty() || this.userId == null);
 	}
 

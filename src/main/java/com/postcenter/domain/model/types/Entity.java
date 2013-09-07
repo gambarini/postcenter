@@ -1,6 +1,8 @@
 package com.postcenter.domain.model.types;
 
-public abstract class Entity {
+import com.postcenter.domain.model.IPersistenceValidator;
+
+public abstract class Entity<T> {
 	private String _id;
 
 	public String get_id() {
@@ -11,6 +13,8 @@ public abstract class Entity {
 		this._id = _id;
 	}
 	
-	public abstract boolean isValid();
+	public abstract boolean isValid(IPersistenceValidator<T> validator);
+
+
 	
 }

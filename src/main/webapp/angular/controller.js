@@ -9,7 +9,7 @@ postController.controller('mainCtrl', function ($scope, $http, $location, Post, 
         title: "",
         message: ""
     };
-    
+
     $scope.sidePanel = 0;
 
     $scope.fetchPosts = function () {
@@ -46,36 +46,25 @@ postController.controller('mainCtrl', function ($scope, $http, $location, Post, 
     };
 
     $scope.loginSubmit = function () {
-        console.log($scope.login + 'logando...');
+
         Auth.login([], "email=" + $scope.login.email + "&password=" + $scope.login.password, function (data) {
-            console.log('logado, buscando usuario');
+
             $scope.fetchUser();
 
-        }, function (data) {
-            console.log('erro logando.');
-            $scope.logedUser = undefined;
+        }, function (data) $scope.logedUser = undefined;
         });
-        
-        return false;
-    };
 
-    $scope.refreshView = function () {
+    return false;
+};
 
-        $scope.fetchPosts();
-        $scope.fetchUser();
+$scope.refreshView = function () {
 
-        /*$('.showHideLink').each(function () {
+    $scope.fetchPosts();
+    $scope.fetchUser();
 
-            $(this).children('form').hide();
+};
 
-            $(this).children('h3').click(function (event) {
-                event.preventDefault();
-                $(this).siblings('form').toggle('blind');
-            });
-        });*/
-    };
-
-    $scope.refreshView();
+$scope.refreshView();
 
 });
 

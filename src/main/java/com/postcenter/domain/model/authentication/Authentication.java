@@ -3,9 +3,10 @@ package com.postcenter.domain.model.authentication;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.postcenter.domain.model.IPersistenceValidator;
 import com.postcenter.domain.model.types.Entity;
 
-public class Authentication extends Entity {
+public class Authentication extends Entity<Authentication> {
 
 	private String password;
 	private String token;
@@ -85,7 +86,7 @@ public class Authentication extends Entity {
 	}
 
 	@Override
-	public boolean isValid() {
+	public boolean isValid(IPersistenceValidator<Authentication> validator) {
 
 		return !(this.password.isEmpty() || this.userId.isEmpty());
 	}
