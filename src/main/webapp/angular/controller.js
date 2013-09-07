@@ -47,11 +47,13 @@ postController.controller('mainCtrl', function ($scope, $http, $location, Post, 
 
     $scope.loginSubmit = function () {
 
-        Auth.login([], "email=" + $scope.login.email + "&password=" + $scope.login.password, function (data) {
+        Auth.login("email=" + $scope.login.email + "&password=" + $scope.login.password, function (data) {
 
             $scope.fetchUser();
 
-        }, function (data) $scope.logedUser = undefined;
+        }, function (data) { 
+        	
+        	$scope.logedUser = undefined;
         });
 
     return false;

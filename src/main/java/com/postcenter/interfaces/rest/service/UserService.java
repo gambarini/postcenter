@@ -1,4 +1,4 @@
-package com.postcenter.interfaces.rest;
+package com.postcenter.interfaces.rest.service;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -26,6 +26,9 @@ public class UserService {
 
 	@Inject
 	private IUserRepository userRepository;
+	
+	//@Inject
+	//private IPersistenceValidator<User> userPersistenceValidator;
 
 	@Inject
 	private IAuthenticationRepository authRepository;

@@ -2,7 +2,6 @@ package com.postcenter.infrastructure.persistence.mongodb.repositories;
 
 import org.jongo.MongoCollection;
 
-import com.postcenter.domain.model.IPersistenceValidator;
 import com.postcenter.domain.model.authentication.Authentication;
 import com.postcenter.domain.model.user.IUserRepository;
 import com.postcenter.domain.model.user.User;

@@ -1,4 +1,4 @@
-package com.postcenter.interfaces.rest;
+package com.postcenter.interfaces.rest.service;
 
 import java.util.List;
 

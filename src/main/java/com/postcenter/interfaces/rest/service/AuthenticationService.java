@@ -1,4 +1,4 @@
-package com.postcenter.interfaces.rest;
+package com.postcenter.interfaces.rest.service;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
