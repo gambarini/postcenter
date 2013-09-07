@@ -46,7 +46,7 @@ public class Authentication extends Entity {
 		this.lastAuthentication = new Date();
 	}
 
-	public boolean isAuthtenticated(String token) {
+	public boolean isAuthenticated(String token) {
 		if (this.isLastAuthenticationExpired())
 			return false;
 

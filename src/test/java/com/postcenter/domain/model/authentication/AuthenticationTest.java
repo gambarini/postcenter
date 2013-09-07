@@ -106,7 +106,7 @@ public class AuthenticationTest {
 
 		authentication = authRepo.findAuthentication("password", "nameless@mail.com");
 
-		Assert.assertEquals(true, authentication.isAuthtenticated(token));
+		Assert.assertEquals(true, authentication.isAuthenticated(token));
 	}
 	
 	@Test
@@ -122,7 +122,7 @@ public class AuthenticationTest {
 
 		authentication = authRepo.findAuthenticationByToken(user.getEmail(), token);
 
-		Assert.assertEquals(true, authentication.isAuthtenticated(token));
+		Assert.assertEquals(true, authentication.isAuthenticated(token));
 	}
 
 	@Test

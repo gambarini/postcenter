@@ -54,10 +54,11 @@ public class PostService {
 	public Response getPost(@PathParam("id") String id) {
 
 		Post post = postRepository.findPostById(id);
-		PostDTO postDTO = PostFacade.toPostDTO(post, userRepository);
 		
 		if (post == null)
 			return Response.status(Status.NOT_FOUND).build();
+		
+		PostDTO postDTO = PostFacade.toPostDTO(post, userRepository);
 
 		return Response.status(Status.OK).entity(postDTO).build();
 	}
@@ -116,7 +117,7 @@ public class PostService {
 
 		postRepository.store(post);
 
-		return Response.status(Status.CREATED).entity(post).build();
+		return Response.status(Status.CREATED).entity(PostFacade.toPostDTO(post, userRepository)).build();
 	}
 	
 	@POST

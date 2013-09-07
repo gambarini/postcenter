@@ -1,17 +1,13 @@
 package com.postcenter.interfaces.rest.dto;
 
-public class UserDTO {
 
-	private String id;
+public class NewUserDTO {
+	
 	private String name;
 	private String email;
-
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+	private String password;
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -24,4 +20,12 @@ public class UserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 }

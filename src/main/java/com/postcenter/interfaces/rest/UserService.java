@@ -16,7 +16,8 @@ import com.postcenter.domain.model.authentication.Authentication;
 import com.postcenter.domain.model.authentication.IAuthenticationRepository;
 import com.postcenter.domain.model.user.IUserRepository;
 import com.postcenter.domain.model.user.User;
-import com.postcenter.interfaces.rest.dto.UserDTO;
+import com.postcenter.interfaces.rest.dto.NewUserDTO;
+import com.postcenter.interfaces.rest.facade.UserFacade;
 import com.postcenter.interfaces.rest.interceptors.Authenticate;
 
 @Path("/user")
@@ -35,7 +36,7 @@ public class UserService {
 
 		User user = userRepository.findUserById(id);
 
-		return Response.status(Status.OK).entity(user).build();
+		return Response.status(Status.OK).entity(UserFacade.toUserDTO(user)).build();
 	}
 	
 	@GET
@@ -47,22 +48,22 @@ public class UserService {
 		
 		if (user == null) return Response.status(Status.NOT_FOUND).build();
 		
-		return Response.status(Status.OK).entity(user).build();
+		return Response.status(Status.OK).entity(UserFacade.toUserDTO(user)).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addUser(UserDTO userDTO) {
+	public Response addUser(NewUserDTO newUserDTO) {
 
-		User user = userDTO.fromDTO();
+		User user = UserFacade.fromDTO(newUserDTO);
 
 		if (!user.isValid())
 			return Response.status(Status.BAD_REQUEST).build();
 
 		userRepository.store(user);
 
-		Authentication authentication = Authentication.createAuthentication(user.get_id(), userDTO.getPassword());
+		Authentication authentication = Authentication.createAuthentication(user.get_id(), newUserDTO.getPassword());
 
 		if (!authentication.isValid()) {
 			userRepository.remove(user);

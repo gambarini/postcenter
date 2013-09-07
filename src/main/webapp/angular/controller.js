@@ -1,126 +1,133 @@
 "use strict";
 
-var postController = angular.module('postController',
-		['services']);
+var postController = angular.module('postController', ['services']);
 
-postController.controller('mainCtrl', function($scope, $http, $location, Post, Auth,
-		User) {
+postController.controller('mainCtrl', function ($scope, $http, $location, Post, Auth,
+    User) {
 
-	$scope.post = {
-		title : "",
-		message : ""
-	};
+    $scope.post = {
+        title: "",
+        message: ""
+    };
+    
+    $scope.sidePanel = 0;
 
-	$scope.fetchPosts = function() {
-		$scope.posts = Post.query({
-			top : 7
-		});
-	};
+    $scope.fetchPosts = function () {
+        $scope.posts = Post.query({
+            top: 7
+        });
+    };
 
-	$scope.fetchUser = function() {
+    $scope.fetchUser = function () {
 
-		$scope.logedUser = User.get({},function() {}, function() {});
-	};
+        $scope.logedUser = User.get({}, function () {}, function () {});
+    };
 
-	$scope.postSubmit = function() {
+    $scope.postSubmit = function () {
 
-		Post.save({}, $scope.post, function() {
-			$scope.fetchPosts();
-		}, function() {
-			$location.path('/authentication')
-		});
-	};
-	
-	$scope.logout = function() {
-		Auth.delete({}, function() {
-			$scope.logedUser = undefined;
-		});
-	};
+        Post.save({}, $scope.post, function () {
+            $scope.fetchPosts();
+        }, function () {
+            $location.path('/authentication')
+        });
+    };
 
-	$scope.refreshView = function() {
+    $scope.logout = function () {
+        Auth.delete({}, function () {
+            $scope.logedUser = undefined;
+        });
+    };
 
-		$scope.fetchPosts();
-		$scope.fetchUser();
-	};
+    $scope.userSubmit = function () {
 
-	$scope.refreshView();
+        $scope.user = User.save([], $scope.user, function (data) {
 
-});
+        }, function (data) {});
+    };
 
-postController.controller('postCtrl', function($scope, $routeParams, $location,
-		User, Post, PostReply, Auth) {
+    $scope.loginSubmit = function () {
+        console.log($scope.login + 'logando...');
+        Auth.login([], "email=" + $scope.login.email + "&password=" + $scope.login.password, function (data) {
+            console.log('logado, buscando usuario');
+            $scope.fetchUser();
 
-	$scope.fetchPost = function() {
-		$scope.post = Post.get({
-			postId : $routeParams.postId
-		}, function() {
+        }, function (data) {
+            console.log('erro logando.');
+            $scope.logedUser = undefined;
+        });
+        
+        return false;
+    };
 
-		});
-	};
+    $scope.refreshView = function () {
 
-	$scope.fetchUser = function() {
+        $scope.fetchPosts();
+        $scope.fetchUser();
 
-		$scope.logedUser = User.get({},function() {}, function() {});
-	};
+        /*$('.showHideLink').each(function () {
 
-	$scope.replySubmit = function() {
+            $(this).children('form').hide();
 
-		PostReply.save({
-			postId : $routeParams.postId
-		}, $scope.reply, function() {
-			$scope.fetchPost();
-		}, function() {
-			$location.path('/authentication');
-		});
-	};
-	
-	$scope.logout = function() {
-		Auth.delete({},{}, function() {
-			$scope.logedUser = undefined;
-		});
-	};
+            $(this).children('h3').click(function (event) {
+                event.preventDefault();
+                $(this).siblings('form').toggle('blind');
+            });
+        });*/
+    };
 
-
-	$scope.remove = function() {
-		Post.remove({
-			postId : $routeParams.postId
-		}, function() {
-			$location.path('/');
-		}, function() {
-			$location.path('/authentication')
-		});
-	};
-
-	$scope.refreshView = function() {
-		$scope.fetchPost();
-		$scope.fetchUser();
-	}
-
-	$scope.refreshView();
+    $scope.refreshView();
 
 });
 
-postController.controller('userCtrl', function($scope, $routeParams, $location,
-		User) {
+postController.controller('postCtrl', function ($scope, $routeParams, $location,
+    User, Post, PostReply, Auth) {
 
-	$scope.userSubmit = function() {
+    $scope.fetchPost = function () {
+        $scope.post = Post.get({
+            postId: $routeParams.postId
+        }, function () {
 
-		$scope.user = User.save([], $scope.user, function() {
-			$location.path("/");
-		});
-	};
+        });
+    };
 
-});
+    $scope.fetchUser = function () {
 
-postController.controller('loginCtrl', function($scope, $location, Auth) {
+        $scope.logedUser = User.get({}, function () {}, function () {});
+    };
 
-	$scope.loginSubmit = function() {
+    $scope.replySubmit = function () {
 
-		Auth.login("email=" + loginForm.email.value + "&password="
-				+ loginForm.password.value, function(data) {
+        PostReply.save({
+            postId: $routeParams.postId
+        }, $scope.reply, function () {
+            $scope.fetchPost();
+        }, function () {
+            $location.path('/authentication');
+        });
+    };
 
-			$location.path('/');
+    $scope.logout = function () {
+        Auth.delete({}, {}, function () {
+            $scope.logedUser = undefined;
+        });
+    };
 
-		});
-	};
+
+    $scope.remove = function () {
+        Post.remove({
+            postId: $routeParams.postId
+        }, function () {
+            $location.path('/');
+        }, function () {
+            $location.path('/authentication')
+        });
+    };
+
+    $scope.refreshView = function () {
+        $scope.fetchPost();
+        $scope.fetchUser();
+    }
+
+    $scope.refreshView();
+
 });

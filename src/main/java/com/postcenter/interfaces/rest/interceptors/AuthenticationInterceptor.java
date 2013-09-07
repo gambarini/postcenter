@@ -48,8 +48,9 @@ public class AuthenticationInterceptor implements PreProcessInterceptor, Accepte
 			
 			Authentication authentication = authRepository.findAuthenticationByToken(email, token);
 			
-			if (authentication != null && authentication.isAuthtenticated(token)) {	
+			if (authentication != null && authentication.isAuthenticated(token)) {	
 				
+				authRepository.store(authentication);
 				return null;
 			}
 			else {

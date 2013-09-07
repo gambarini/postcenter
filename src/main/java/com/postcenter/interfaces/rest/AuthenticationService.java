@@ -29,19 +29,18 @@ public class AuthenticationService {
 
 		if (auth == null)
 			return Response.status(Status.FORBIDDEN).build();
-		
+
 		String token = auth.authenticate();
-		
+
 		authenticationRepository.store(auth);
-		
-		return Response.status(Status.CREATED).cookie(new NewCookie(Authentication.COOKIE_EMAIL, email), new NewCookie(Authentication.COOKIE_TOKEN, token)).build();
-	}
-	
-	@DELETE
-	public Response authentication(){
-		
-		return Response.status(Status.ACCEPTED).cookie(new NewCookie(Authentication.COOKIE_EMAIL, null), new NewCookie(Authentication.COOKIE_TOKEN, null)).build();
+
+		return Response.status(Status.CREATED).cookie(new NewCookie(Authentication.COOKIE_EMAIL, email), new NewCookie(Authentication.COOKIE_TOKEN, token)).entity(token).build();
 	}
 
+	@DELETE
+	public Response authentication() {
+
+		return Response.status(Status.NO_CONTENT).cookie(new NewCookie(Authentication.COOKIE_EMAIL, null), new NewCookie(Authentication.COOKIE_TOKEN, null)).build();
+	}
 
 }
