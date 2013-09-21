@@ -143,11 +143,18 @@ postController.controller('postCtrl', function ($scope, $routeParams, $location,
 
         return false;
     };
+    
+    $scope.fetchPosts = function () {
+        $scope.posts = Post.query({
+            top: 5
+        });
+    };
 
 
     $scope.refreshView = function () {
         $scope.fetchPost();
         $scope.fetchUser();
+        $scope.fetchPosts();
     }
 
     $scope.refreshView();

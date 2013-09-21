@@ -18,9 +18,12 @@
 				<!--.header-->
 				<div class="post-content image-caption-format-1">
 					<p>{{post.message}}</p>
+					<p class="more">
+						<a ng-href="#">Back to home</a>
+					</p>
 				</div>
 			</div>
-			<div>
+			<div ng-show="post.replys">
 				<header>
 					<div class="bubble">
 						<a ng-href="#{{post.id}}">{{post.totalReplys}}</a>
@@ -42,7 +45,7 @@
 					</div>
 				</div>
 				<p class="more">
-					<a ng-href="#">Back to index</a>
+					<a ng-href="#">Back to home</a>
 				</p>
 			</div>
 		</div>
@@ -109,7 +112,7 @@
 					</li>
 						<li class="widget widget-sidebar">
 							<h3>
-								<a href="#" ng-click="logout()">Log out</a>
+								<a href="#{{post.id}}" ng-click="logout()">Log out</a>
 							</h3>
 					</li>
 						<li class="widget widget-sidebar">
@@ -118,8 +121,7 @@
 								<fieldset>
 									<div>
 										<label>Message</label> <br />
-										<textarea ng-model="reply.message" rows="6" cols="150"
-											required></textarea>
+										<textarea ng-model="reply.message" required></textarea>
 									</div>
 									<div>
 										<input type="submit" />
@@ -128,6 +130,14 @@
 							</form>
 					</li>
 					</span>
+					<li class="widget widget-sidebar">
+						<h3>Recent Posts</h3>
+						<ul>
+							<li ng-repeat="post in posts"><a ng-href="#{{post.id}}"
+								rel="bookmark">{{post.title}}</a></li>
+						</ul>
+					</li>
+
 				</ul>
 
 			</div>
