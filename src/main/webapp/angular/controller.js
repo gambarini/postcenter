@@ -56,22 +56,24 @@ postController.controller('mainCtrl', function ($scope, $http, $location, Post, 
         	$scope.logedUser = undefined;
         });
 
-    return false;
-};
+        return false;
+    };
 
-$scope.refreshView = function () {
+    $scope.refreshView = function () {
 
-    $scope.fetchPosts();
-    $scope.fetchUser();
+    	$scope.fetchPosts();
+    	$scope.fetchUser();
 
-};
+    };	
 
-$scope.refreshView();
+    $scope.refreshView();
 
 });
 
 postController.controller('postCtrl', function ($scope, $routeParams, $location,
     User, Post, PostReply, Auth) {
+	
+    $scope.sidePanel = 0;
 
     $scope.fetchPost = function () {
         $scope.post = Post.get({
@@ -113,6 +115,35 @@ postController.controller('postCtrl', function ($scope, $routeParams, $location,
             $location.path('/authentication')
         });
     };
+    
+    $scope.userSubmit = function () {
+
+        $scope.user = User.save([], $scope.user, function (data) {
+
+        }, function (data) {});
+    };
+    
+    $scope.logout = function () {
+        Auth.delete({}, function () {
+            $scope.logedUser = undefined;
+        });
+    };
+
+
+    $scope.loginSubmit = function () {
+
+        Auth.login("email=" + $scope.login.email + "&password=" + $scope.login.password, function (data) {
+
+            $scope.fetchUser();
+
+        }, function (data) { 
+        	
+        	$scope.logedUser = undefined;
+        });
+
+        return false;
+    };
+
 
     $scope.refreshView = function () {
         $scope.fetchPost();

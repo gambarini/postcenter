@@ -1,50 +1,136 @@
-<h3>
-<span>{{post.title}}</span>
-<span> - </span>
-<span>{{post.createDate | date:'medium'}}</span>
-<span> by {{post.userName}}</span>
+<div class="content">
+	<article class="article">
+		<div id="content_box">
 
-</h3>
-<p>
-	<span>{{post.message}}</span>
-</p>
-<div>
-<Span>Reply:</Span>
-<ul>
-    <li ng-repeat="reply in post.replys">
-	    	<span>{{reply.message}}</span>
-	    	<span> - </span>
-	    	<span>{{reply.createDate | date:'medium'}}</span>
-	    	<span> by {{reply.userName}}</span>
-    </li>
-</ul>
-<a ng-href="#">back</a>
-	<span ng-hide="logedUser === undefined || logedUser._id != post.userId">
-		<span>&nbsp; | &nbsp;</span> <a ng-href="#/" ng-click="remove();">remove</a>
-	</span>
+			<div class="post excerpt ">
+				<header>
+					<h2 class="title">
+						<a ng-href="#{{post.id}}" rel="bookmark">{{post.title}}</a>
+					</h2>
+					<div class="post-info">
+						<span class="theauthor"> <a href="#" rel="author">{{post.userName}}</a>
+						</span>
+						<time>{{post.createDate | date:'medium'}}</time>
+						<span class="thecategory"> <a href="#" rel="category tag">-</a>
+						</span>
+					</div>
+				</header>
+				<!--.header-->
+				<div class="post-content image-caption-format-1">
+					<p>{{post.message}}</p>
+				</div>
+			</div>
+			<div>
+				<header>
+					<div class="bubble">
+						<a ng-href="#{{post.id}}">{{post.totalReplys}}</a>
+					</div>
+					<h1>Replies</h1>
+				</header>
+
+				<div class="post excerpt" ng-repeat="reply in post.replys">
+					<header>
+						<div class="post-info">
+							<span class="theauthor"> <a href="#" rel="author">{{reply.userName}}</a>
+							</span>
+							<time>{{reply.createDate | date:'medium'}}</time>
+						</div>
+					</header>
+					<!--.header-->
+					<div class="post-content image-caption-format-1">
+						<p>{{reply.message}}</p>
+					</div>
+				</div>
+				<p class="more">
+					<a ng-href="#">Back to index</a>
+				</p>
+			</div>
+		</div>
+	</article>
+	<aside class="sidebar c-4-12">
+		<div id="sidebars" class="g">
+			<div class="sidebar">
+				<ul class="sidebar_list">
+					<span ng-hide="!(logedUser.name === undefined)">
+						<li class="widget widget-sidebar">
+							<div class="showHideLink">
+								<h3>
+									<a ng-click="sidePanel = 0">Login</a>
+								</h3>
+								<form ng-submit="loginSubmit()" name="loginSubmitForm"
+									ng-show="sidePanel == 0">
+									<fieldset>
+										<div>
+											<label>E-Mail</label> <br /> <input type="email"
+												ng-model="login.email" name="email" required />
+										</div>
+										<div>
+											<label>Password</label> <br /> <input type="text"
+												ng-model="login.password" name="password" required />
+										</div>
+										<div>
+											<input type="submit" />
+										</div>
+									</fieldset>
+								</form>
+							</div>
+					</li>
+						<li class="widget widget-sidebar">
+							<div class="showHideLink">
+								<h3>
+									<a ng-click="sidePanel = 1">Create User</a>
+								</h3>
+								<form ng-submit="userSubmit()" name="userSubmitForm"
+									ng-show="sidePanel == 1">
+									<fieldset>
+										<div>
+											<label>Name</label> <br /> <input type="text"
+												ng-model="user.name" name="name" required />
+										</div>
+										<div>
+											<label>E-mail</label> <br /> <input type="email"
+												ng-model="user.email" name="email" required />
+										</div>
+										<div>
+											<label>Password</label> <br /> <input type="text"
+												ng-model="user.password" name="password" required />
+										</div>
+										<div>
+											<input type="submit" />
+										</div>
+									</fieldset>
+								</form>
+							</div>
+					</li>
+					</span>
+					<span ng-hide="logedUser.name === undefined">
+						<li class="widget widget-sidebar">
+							<h3>Welcome {{logedUser.name}}</h3>
+					</li>
+						<li class="widget widget-sidebar">
+							<h3>
+								<a href="#" ng-click="logout()">Log out</a>
+							</h3>
+					</li>
+						<li class="widget widget-sidebar">
+							<h3>Write a reply</h3>
+							<form ng-submit="replySubmit()">
+								<fieldset>
+									<div>
+										<label>Message</label> <br />
+										<textarea ng-model="reply.message" rows="6" cols="150"
+											required></textarea>
+									</div>
+									<div>
+										<input type="submit" />
+									</div>
+								</fieldset>
+							</form>
+					</li>
+					</span>
+				</ul>
+
+			</div>
+		</div>
+	</aside>
 </div>
-<hr>
- <form ng-submit="replySubmit()" ng-hide="logedUser.name === undefined">
- <fieldset>
- 		<div>
-			<label>You are logged as: {{logedUser.name}}</label> <span> | </span> <a href="#/"  ng-click="logout()">Logout</a> <br/><br/>
-		</div>
- 
-		<div>
-			<label>Message</label> <br/>
-			<textarea ng-model="reply.message" rows="6" cols="150" required></textarea>
-
-		</div>
-		<div>
-			<input type="submit" />
-		</div>
-	</fieldset>
- 
- </form>
- 
- <hr>
-
-<hr>
-<pre>
-    {{post | json}}
-</pre>
