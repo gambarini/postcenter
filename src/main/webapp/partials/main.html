@@ -119,12 +119,7 @@
                         </li>
                     </span>
                     <li class="widget widget-sidebar">
-                        <h3>Recent Posts</h3>
-                        <ul>
-                            <li ng-repeat="post in posts">
-                                <a ng-href="#{{post.id}}" rel="bookmark">{{post.title}}</a>
-                            </li>
-                        </ul>
+                        <recent-posts></recent-posts>
                     </li>
                 </ul>
             </div>

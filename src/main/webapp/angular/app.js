@@ -1,6 +1,6 @@
 "use strict";
 
-var postCenter = angular.module('PostCenter', ['Controllers','Services']);
+var postCenter = angular.module('PostCenter', ['Controllers','Services','Directives']);
 
 postCenter.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
