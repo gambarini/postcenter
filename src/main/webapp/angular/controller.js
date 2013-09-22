@@ -1,8 +1,8 @@
 "use strict";
 
-var postController = angular.module('postController', ['services']);
+var postController = angular.module('Controllers', ['Services']);
 
-postController.controller('mainCtrl', function ($scope, $http, $location, Post, Auth,
+postController.controller('mainController', function ($scope, $http, $location, Post, Auth,
     User) {
 
     $scope.post = {
@@ -70,7 +70,7 @@ postController.controller('mainCtrl', function ($scope, $http, $location, Post, 
 
 });
 
-postController.controller('postCtrl', function ($scope, $routeParams, $location,
+postController.controller('postController', function ($scope, $routeParams, $location,
     User, Post, PostReply, Auth) {
 	
     $scope.sidePanel = 0;

@@ -1,17 +1,17 @@
 "use strict";
 
-var postCenter = angular.module('postCenter', ['postController','services']);
+var postCenter = angular.module('PostCenter', ['Controllers','Services']);
 
 postCenter.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
 		templateUrl : 'partials/main.html',
-		controller : 'mainCtrl'
+		controller : 'mainController'
 	}).when('/user/:userId', {
 		templateUrl : 'partials/user.html',
-		controller : 'userCtrl'
+		controller : 'userController'
 	}).when('/:postId', {
 		templateUrl : 'partials/post.html',
-		controller : 'postCtrl'
+		controller : 'postController'
 	}).otherwise({
 		redirectTo : '/'
 	})
