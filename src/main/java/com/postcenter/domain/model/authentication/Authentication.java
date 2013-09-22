@@ -77,6 +77,12 @@ public class Authentication extends Entity<Authentication> {
 		return 5;
 	}
 
+	public void expireToken() {
+		
+		this.lastAuthentication = null;
+
+	}
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -90,5 +96,6 @@ public class Authentication extends Entity<Authentication> {
 
 		return !(this.password.isEmpty() || this.userId.isEmpty());
 	}
+
 
 }

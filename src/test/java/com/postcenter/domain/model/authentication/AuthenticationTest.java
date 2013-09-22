@@ -140,4 +140,30 @@ public class AuthenticationTest {
 		
 		Assert.assertNull(authentication);
 	}
+	
+	@Test
+	public void testTokenForcedExpiration(){
+		
+		User user = new User("Nameless One", "nameless@mail.com");
+		userRepo.store(user);
+		
+		Authentication authentication = Authentication.createAuthentication(user.get_id(), "password");
+		
+		String token = authentication.authenticate();
+		
+		authRepo.store(authentication);
+		
+		authentication = authRepo.findAuthenticationByToken(user.getEmail(), token);
+		
+		Assert.assertEquals(true, authentication.isAuthenticated(token));
+		
+		authentication.expireToken();
+		
+		authRepo.store(authentication);
+		
+		authentication = authRepo.findAuthenticationByToken(user.getEmail(), token);
+		
+		Assert.assertEquals(false, authentication.isAuthenticated(token));
+		
+	}
 }

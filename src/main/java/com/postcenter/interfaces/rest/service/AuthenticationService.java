@@ -1,6 +1,7 @@
 package com.postcenter.interfaces.rest.service;
 
 import javax.inject.Inject;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -38,8 +39,16 @@ public class AuthenticationService {
 	}
 
 	@DELETE
-	public Response authentication() {
-
+	public Response authenticationDelete(@CookieParam("email") @DefaultValue("") String email, @CookieParam("token") @DefaultValue("") String token) {
+		
+		Authentication authentication = authenticationRepository.findAuthenticationByToken(email, token);
+		
+		if (authentication == null) return Response.status(Status.NOT_FOUND).build();
+		
+		authentication.expireToken();
+		
+		authenticationRepository.store(authentication);
+		
 		return Response.status(Status.NO_CONTENT).cookie(new NewCookie(Authentication.COOKIE_EMAIL, null), new NewCookie(Authentication.COOKIE_TOKEN, null)).build();
 	}
 
